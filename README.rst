@@ -4,7 +4,7 @@ Readme of gerber_writer
 Purpose
 -------
 
-A library for writing Gerber files. 
+A Python library for writing Gerber files. 
 
 Its benefits over writing Gerber files directly from the spec are:
 
@@ -39,14 +39,14 @@ Example::
 Installation
 ------------
 
-python -m pip install gerber_writer
+py -m pip install --index-url https://test.pypi.org/simple/ --no-deps gerber_writer
 
 Requirements
 ------------
 
 * Python 3.10 or higher
-* Standard library only
-* No known OS dependencies. Only tested on Windows 11. Let me know if you tested it on other OSs.
+* Standard library only.
+* OS independent. Only tested on Windows 11. Let me know if you tested it on other OSs.
 
 License
 -------
