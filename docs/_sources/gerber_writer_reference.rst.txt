@@ -1,7 +1,0 @@
-
-=============================
-gerber_writer Reference Guide
-=============================
-
-.. automodule:: gerber_writer
-   :members:
