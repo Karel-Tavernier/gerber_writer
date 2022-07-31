@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial and Reference &mdash; gerber_writer 0.3.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> gerber_writer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial and Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gerber-format-a-primer">Gerber format - a primer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#graphics-objects">Graphics objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#polarity">Polarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#function">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specification">Specification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general-classes">General Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pad-master-classes">Pad Master Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#artificial">Artificial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-pcb-profile">A PCB Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-of-namedtuple">Use of NamedTuple</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#main-classes-reference">Main Classes Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#padmaster-classes-reference">Padmaster Classes Reference</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gerber_writer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Tutorial and Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-gerber_writer.writer">
+<span id="tutorial-and-reference"></span><h1>Tutorial and Reference<a class="headerlink" href="#module-gerber_writer.writer" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-gerber_wrier"></span><section id="gerber-format-a-primer">
+<h2>Gerber format - a primer<a class="headerlink" href="#gerber-format-a-primer" title="Permalink to this headline"></a></h2>
+<p>A Gerber file represents the image of PCB layer. 
+The image is defined by an ordered list of <em>graphics objects</em>. 
+<em>File attributes</em> identify the purpose of the file, e.g. it is the top copper layer.
+<em>Object attributes</em> identify the purpose of objects, e.g. that a pad is a via pad of component pad.</p>
+<section id="graphics-objects">
+<h3>Graphics objects<a class="headerlink" href="#graphics-objects" title="Permalink to this headline"></a></h3>
+<p>There are three types of graphics objects:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Pads</dt><dd><p>Pads are geometrics shapes replicated over the board, such as circles for via pads or rounded rectangles for SMD pads.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Traces    </dt><dd><p>These are either straight line or circular arc segments. They are typically used for traces
+in a copper plane, but are also used to plot text, etc.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Regions</dt><dd><p>Regions are defined by their contours. They are typically used for copper pours,
+but they can also be used for a logo, etc.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="polarity">
+<h3>Polarity<a class="headerlink" href="#polarity" title="Permalink to this headline"></a></h3>
+<p>The file can have positive or negative polarity.  
+In positive files image means presence of material, in negative files its absence.
+Solder mask layers are conventionally negative, and it is strongly recommended to stick to that convention.
+All other layers are best positive. 
+Negative is also sometimes used for copper planes, but there is today no reason for it. It is just confusing.
+(Historically, with a technology no longer used since 50 years, there was a reason to do this. No longer. Move with the times.)</p>
+<p>Graphics objects can have either positive or negative polarity. Positive is the normal polarity. 
+Positive graphics objects are add to the image. Negative ones <em>erase</em> the image created by all <em>preceding</em> graphics objects.
+Thus, in the presence of negative objects, the order of the graphics object list is important.</p>
+</section>
+<section id="function">
+<h3>Function<a class="headerlink" href="#function" title="Permalink to this headline"></a></h3>
+<p>File function attributes identify the content of function of the file, e.g. ‘SolderMask,Top’
+Valid file function attribute values are listed as .FileFunction values in the Gerber format specification.
+Without function the file is meaningless.</p>
+<p>Object function attributes identify their function, e.g. ‘ViaPad’, ‘Conductor’. 
+Valid object values are listed as .AperFunction  values in the Gerber format specification.
+This meta-information is essential for bare-board fabrication.</p>
+</section>
+<section id="specification">
+<h3>Specification<a class="headerlink" href="#specification" title="Permalink to this headline"></a></h3>
+<p>The Gerber layer format <a class="reference external" href="https://www.ucamco.com/files/downloads/file_en/456/gerber-layer-format-specification-revision-2022-02_en.pdf">specification</a> is available from the official Gerber format <a class="reference external" href="https://www.ucamco.com/en/gerber">website</a>.</p>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>DataLayer is the main class. First all graphics objects and attributes are added to the DataLayer, using the add methods provided.
+When the DataLayer is complete the dumps_gerber or dump_gerber methods return the Gerber string or output it as a Gerber file.
+On a layer there are typically many identical pads. 
+To handle this efficiently one creates a padmaster instance, with a shape and function for instance to define a via pad. 
+A range of built-in master pad classes provide for the typical pad shapes such as circle or rectangle with rounded corners,
+as well as a class to create pad masters with a user defined shape.
+The add_pad method replicates the padmaster at a given position and under a given angle.</p>
+<p>A point is consistently represented by a tuple of two floats.</p>
+<p>Files can be verified with the <a class="reference external" href="https://gerber-viewer.ucamco.com">Reference_Gerber_Viewer</a> on the offical Gerber format website.</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<section id="general-classes">
+<h3>General Classes<a class="headerlink" href="#general-classes" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>DataLayer</strong>         - The main class, accumulate the graphics objects and output Gerbers.</p></li>
+<li><p><strong>Path</strong>              - Define traces and regions.</p></li>
+</ul>
+</section>
+<section id="pad-master-classes">
+<h3>Pad Master Classes<a class="headerlink" href="#pad-master-classes" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>Circle</strong>            - Pad master, circular</p></li>
+<li><p><strong>Rectangle</strong>         - Pad master, rectangular</p></li>
+<li><p><strong>RoundedRectangle</strong>  - Pad master, rectangle with rounded corners</p></li>
+<li><p><strong>ChamferedRectangle</strong> - Pad master, rectangle with chamfered corners</p></li>
+<li><p><strong>RegularPolygon</strong>    - Pad master, regular polython</p></li>
+<li><p><strong>Thermal</strong>           - Pad master, a circular thermal with straight corners</p></li>
+<li><p><strong>RoundedThermal</strong>    - Pad master, a circular thermal with rouned corners</p></li>
+<li><p><strong>UserPolygon</strong>       - Pad master, a user defined shape</p></li>
+</ul>
+</section>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>set_generation_software</strong> - Identify the software that generated the Gerber file</p></li>
+</ul>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<section id="artificial">
+<h3>Artificial<a class="headerlink" href="#artificial" title="Permalink to this headline"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">DataLayer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Path</span><span class="p">,</span> <span class="n">set_generation_software</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">Circle</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">RoundedRectangle</span><span class="p">,</span> <span class="n">RoundedThermal</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_generation_software</span><span class="p">(</span><span class="s1">&#39;Karel Tavernier&#39;</span><span class="p">,</span> <span class="s1">&#39;gerber_writer_example.py&#39;</span><span class="p">,</span> <span class="s1">&#39;2022.06&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trace_width</span> <span class="o">=</span> <span class="mf">0.254</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">via_pad</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="mf">0.508</span><span class="p">,</span> <span class="s1">&#39;ViaPad&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top,Signal&#39;</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Footprint of IC17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IC17_toe</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mf">1.27</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">,</span> <span class="s1">&#39;SMDPad,CuDef&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">IC17_toe</span><span class="p">,</span> <span class="p">(</span><span class="mf">65.094</span><span class="p">,</span> <span class="mf">47.269</span><span class="p">),</span> <span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">IC17_toe</span><span class="p">,</span> <span class="p">(</span><span class="mf">68.047</span><span class="p">,</span> <span class="mf">50.267</span><span class="p">),</span> <span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect one pin to via</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">((</span><span class="mf">65.094</span><span class="p">,</span> <span class="mf">47.269</span><span class="p">),</span> <span class="p">(</span><span class="mf">65.094</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mf">47.269</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="mf">65.094</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mf">47.269</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Footprint of IC16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IC16_toe</span> <span class="o">=</span> <span class="n">RoundedRectangle</span><span class="p">(</span><span class="mf">1.257</span><span class="p">,</span> <span class="mf">2.286</span><span class="p">,</span> <span class="mf">0.254</span><span class="p">,</span> <span class="s1">&#39;SMDPad,CuDef&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">footprint</span> <span class="o">=</span> <span class="p">((</span><span class="mf">56.515</span><span class="p">,</span> <span class="mf">47.879</span><span class="p">),</span> <span class="p">(</span><span class="mf">60.341</span><span class="p">,</span> <span class="mf">47.879</span><span class="p">),</span> <span class="p">(</span><span class="mf">58.428</span><span class="p">,</span> <span class="mf">43.700</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">toe_location</span> <span class="ow">in</span> <span class="n">footprint</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">IC16_toe</span><span class="p">,</span> <span class="n">toe_location</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect pin 2 to via</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">(</span><span class="n">footprint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mf">62.549</span><span class="p">,</span> <span class="mf">47.879</span><span class="p">),</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">((</span><span class="mf">62.549</span><span class="p">,</span> <span class="mf">47.879</span><span class="p">),</span> <span class="p">(</span><span class="mf">64.350</span><span class="p">,</span> <span class="mf">49.657</span><span class="p">),</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="mf">64.350</span><span class="p">,</span> <span class="mf">49.657</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect pin 3 to IC17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">65.000</span><span class="p">,</span> <span class="mf">43.700</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">65.000</span><span class="o">+</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">43.700</span><span class="o">+</span><span class="mf">4.8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">68.047</span><span class="p">,</span> <span class="mf">50.267</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">con_3_IC17</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">con_3_IC17</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="n">footprint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">con_3_IC17</span><span class="o">.</span><span class="n">lineto</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">con_3_IC17</span><span class="o">.</span><span class="n">lineto</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">con_3_IC17</span><span class="o">.</span><span class="n">lineto</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">con_3_IC17</span><span class="p">,</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Copper pour, rectangle with one rounded corner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_left</span> <span class="o">=</span> <span class="mi">55</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_rite</span> <span class="o">=</span> <span class="mi">63</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_bot</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_top</span> <span class="o">=</span> <span class="mi">56</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">x_rite</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="p">(</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rite</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_region</span><span class="p">(</span><span class="n">pour</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Thermal relief pad in copper pour</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">RoundedThermal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="s1">&#39;ThermalReliefPad&#39;</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="n">angle</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Embedded  via pad in copper pour</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_top</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect pin one of IC16 to copper pour</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">(</span><span class="n">footprint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="mf">56.515</span><span class="p">,</span> <span class="mf">47.879</span><span class="o">+</span><span class="mf">2.54</span><span class="p">),</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect vias, with arcs, parallel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trace_start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">53</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="n">trace_start</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_a</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">connection_a</span><span class="p">,</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trace_start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">53</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="n">trace_start</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection_b</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">connection_b</span><span class="p">,</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">trace_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">trace_start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Write gerber file (to null device because this is a doctest)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">null_device</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">top</span><span class="o">.</span><span class="n">dump_gerber</span><span class="p">(</span><span class="n">null_device</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This gerber file creates the following image:</p>
+<a class="reference internal image-reference" href="_images/2022_06_14_doctest_synthetic.png"><img alt="Image generated by doctest artificial example" src="_images/2022_06_14_doctest_synthetic.png" style="width: 800px;" /></a>
+</section>
+<section id="a-pcb-profile">
+<h3>A PCB Profile<a class="headerlink" href="#a-pcb-profile" title="Permalink to this headline"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DataLayer</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">set_generation_software</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_generation_software</span><span class="p">(</span><span class="s1">&#39;Karel Tavernier&#39;</span><span class="p">,</span> <span class="s1">&#39;gerber_writer_example_outline.py&#39;</span><span class="p">,</span> <span class="s1">&#39;2022.06&#39;</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile_layer</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Profile,NP&#39;</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="mi">160</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">170</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">170</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">160</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile_layer</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;Profile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Gerber output files creates the following image:</p>
+<a class="reference internal image-reference" href="_images/2022_06_22_doctest_outline.png"><img alt="Image generated by doctest outline example" src="_images/2022_06_22_doctest_outline.png" style="width: 800px;" /></a>
+</section>
+<section id="use-of-namedtuple">
+<h3>Use of NamedTuple<a class="headerlink" href="#use-of-namedtuple" title="Permalink to this headline"></a></h3>
+<p>Points in the plane are consistently represented as a Tuple[float, float].
+The user can define his own NamedTuple and use it with this API:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">DataLayer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Pnt</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
+<span class="gp">... </span>    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">via</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;ViaPad&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_bot</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L4,Bot&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Pnt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_bot</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="main-classes-reference">
+<h2>Main Classes Reference<a class="headerlink" href="#main-classes-reference" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.writer.</span></span><span class="sig-name descname"><span class="pre">DataLayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer" title="Permalink to this definition"></a></dt>
+<dd><p>Accumulate the graphics objects of a PCB layer, when complete output it as Gerber file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<em>str</em>) – Function of the layer e.g. ‘Soldermask,Bot’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>DataLayer Methods Overview:</strong></p>
+<ul class="simple">
+<li><p><strong>__init__</strong>      - Set layer attributes function and polarity</p></li>
+<li><p><strong>__repr__</strong>      - Return a display of the attributes and the list of graphics objects</p></li>
+<li><p><strong>__len__</strong>       - Return the number of graphics objects in the DataLayer instance</p></li>
+<li><p><strong>add_pad</strong>       - Add a pad to the DataLayer instance</p></li>
+<li><p><strong>add_trace_line</strong> - Add a straight line trace to the DataLayer instance</p></li>
+<li><p><strong>add_trace_arc</strong> - Add a circulare are trace to the DataLayer instance</p></li>
+<li><p><strong>add_trace_Path</strong> - Add traces to the DataLayer instance by stroking a Path</p></li>
+<li><p><strong>add_region</strong>    - Add a region to the DataLayer instance</p></li>
+<li><p><strong>dumps_gerber</strong>  - Return a Gerber string representing the DataLayer instance</p></li>
+<li><p><strong>dump_gerber</strong>   - Write a Gerber file representing the DataLayer instance</p></li>
+</ul>
+<p><strong>DataLayer Methods Reference:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.add_pad">
+<span class="sig-name descname"><span class="pre">add_pad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.add_pad" title="Permalink to this definition"></a></dt>
+<dd><p>Add a pad graphics object to the DataLayer instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master</strong> – The pad master, which defines the pad shape, function and whether it is negative.</p></li>
+<li><p><strong>position</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – The point where the pad master is replicated.</p></li>
+<li><p><strong>angle</strong> (<em>float</em>) – The rotation angle under which the pad master is replicated. Default 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">via_pad</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="mf">0.254</span><span class="p">,</span> <span class="s1">&#39;ViaPad&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smd_pad</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;SMDPad,CuDef&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">))</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">smd_pad</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">),</span> <span class="mi">45</span><span class="p">)</span>        
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.add_region">
+<span class="sig-name descname"><span class="pre">add_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gerber_writer.writer.Path" title="gerber_writer.writer.Path"><span class="pre">gerber_writer.writer.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.add_region" title="Permalink to this definition"></a></dt>
+<dd><p>Add a region graphics object to the DataLayer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference internal" href="#gerber_writer.writer.Path" title="gerber_writer.writer.Path"><em>Path</em></a>) – The path object whose subpaths are the contours describing the region</p></li>
+<li><p><strong>funcion</strong> (<em>str</em>) – The function of the region, e.g. ‘Conductor</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – The region is negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">DataLayer</span><span class="p">,</span> <span class="n">Path</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top&#39;</span><span class="p">)</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="mi">1</span> <span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_top</span><span class="o">.</span><span class="n">add_region</span><span class="p">(</span><span class="n">d_shape</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">copper_top</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>The fundamental requirement for regions is that all subpaths must be closed,
+meaning that their end point exactoy coincides with the start point.
+Furthermore, the contours cannot be self-intersecting.
+For more information about valied contours see the Gerber Layer Format specification _ section 4.10.3.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.add_trace_arc">
+<span class="sig-name descname"><span class="pre">add_trace_arc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.add_trace_arc" title="Permalink to this definition"></a></dt>
+<dd><p>Add circular arc trace to DataLayer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Start point of the arc segment</p></li>
+<li><p><strong>end</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – End point of the arc segment</p></li>
+<li><p><strong>center</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Center of the arc segment</p></li>
+<li><p><strong>orientation</strong> (<em>str</em>) – Orientation of the arc segment, either ‘+’ or ‘-’</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Width of the line segment</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the line segment, e.g. ‘Conductor’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – The line is negative if True, positive if False; default positive.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_arc</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;Other,Test&#39;</span><span class="p">)</span>        
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.add_trace_line">
+<span class="sig-name descname"><span class="pre">add_trace_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.add_trace_line" title="Permalink to this definition"></a></dt>
+<dd><p>Add straight line trace to DataLayer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Start point of the line segment</p></li>
+<li><p><strong>end</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – End point of the line segment</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Width of the line segment</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the line segment, e.g. ‘Conductor’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – The line is negative if True, positive if False; default positive</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;Other,Test&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.add_traces_path">
+<span class="sig-name descname"><span class="pre">add_traces_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gerber_writer.writer.Path" title="gerber_writer.writer.Path"><span class="pre">gerber_writer.writer.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.add_traces_path" title="Permalink to this definition"></a></dt>
+<dd><p>Add traces by stroking a path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference internal" href="#gerber_writer.writer.Path" title="gerber_writer.writer.Path"><em>Path</em></a>) – The path that is to be stroked to create sequences of line and arc traces</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Width of the traces</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the traces</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – The region is negative if True, positive if False; default positive</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">DataLayer</span><span class="p">,</span> <span class="n">Path</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_top</span> <span class="o">=</span> <span class="n">DataLayer</span><span class="p">(</span><span class="s1">&#39;Copper,L1,Top&#39;</span><span class="p">)</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="mi">1</span> <span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copper_top</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">copper_top</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.dump_gerber">
+<span class="sig-name descname"><span class="pre">dump_gerber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gerber_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.DataLayer.dump_gerber" title="Permalink to this definition"></a></dt>
+<dd><p>Write a gerber file representing the DataLayer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gerber_file</strong> (<em>file_object</em>) – The output Gerber file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.DataLayer.dumps_gerber">
+<span class="sig-name descname"><span class="pre">dumps_gerber</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#gerber_writer.writer.DataLayer.dumps_gerber" title="Permalink to this definition"></a></dt>
+<dd><p>Return a string in Gerber format representing the DataLayer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.writer.Path">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.writer.</span></span><span class="sig-name descname"><span class="pre">Path</span></span><a class="headerlink" href="#gerber_writer.writer.Path" title="Permalink to this definition"></a></dt>
+<dd><p>Curves that can be filled to create regions or stroked to create traces.</p>
+<p>Paths are used to define traces and regions (copper pours).    
+A path is composed of straight  and circular arc line segments, 
+which may connect to one another or may be disconnected. 
+A pair of segments are said to connect only if they are defined consecutively,
+with the second segment starting where the first one ends.
+Thus, the order in which the segments of a path are defined is significant.
+Nonconsecutive segments that meet or intersect fortuitously are not considered to connect.
+A path is made up of one or more disconnected subpaths, each comprising a sequence of connected segments.</p>
+<p>In general, the topology of the path is unrestricted: it may be concave or convex, may contain 
+multiple subpaths representing disjoint areas, and may intersect itself in arbitrary ways.</p>
+<p>However, when used to define regions, there are restrictions. 
+The main one is that all subpaths must be closed contours,
+their end point must be equal to their start point.
+See the DataLayer.add_region method for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Define a region with one contour.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">Path</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="mi">1</span> <span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_shape</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">d_shape</span><span class="p">)</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.Path.arcto">
+<span class="sig-name descname"><span class="pre">arcto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.Path.arcto" title="Permalink to this definition"></a></dt>
+<dd><p>Construction operator. Add circular arc segment from current point to end point to the current subpath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>end</strong> (<em>Point</em>) – end point of added segment</p></li>
+<li><p><strong>center</strong> (<em>Point</em>) – center point of arc</p></li>
+<li><p><strong>orientation</strong> (<em>str</em>) – arc orientation, either ‘+’ or ‘-’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.Path.lineto">
+<span class="sig-name descname"><span class="pre">lineto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.Path.lineto" title="Permalink to this definition"></a></dt>
+<dd><p>Construction operator. Add straight line segment from current point to end point to the current subpath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>end</strong> (<em>Point</em>) – end point of added segment</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gerber_writer.writer.Path.moveto">
+<span class="sig-name descname"><span class="pre">moveto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.Path.moveto" title="Permalink to this definition"></a></dt>
+<dd><p>Construction operator. Move the current point and start new subpath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>to</strong> (<em>Point</em>) – start point of next subpath</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gerber_writer.writer.Point">
+<span class="sig-prename descclassname"><span class="pre">gerber_writer.writer.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><a class="headerlink" href="#gerber_writer.writer.Point" title="Permalink to this definition"></a></dt>
+<dd><p>Point in 2D image plane.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gerber_writer.writer.set_generation_software">
+<span class="sig-prename descclassname"><span class="pre">gerber_writer.writer.</span></span><span class="sig-name descname"><span class="pre">set_generation_software</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vendor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.writer.set_generation_software" title="Permalink to this definition"></a></dt>
+<dd><p>Add a statement in the Gerber file that identifies the software aaplication generating it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vendor</strong> (<em>str</em>) – The name of the vendor (or developer, IP onwner, project …)</p></li>
+<li><p><strong>application</strong> (<em>str</em>) – The name of the application itslelf</p></li>
+<li><p><strong>version</strong> (<em>str</em>) – The version id of the application</p></li>
+</ul>
+</dd>
+</dl>
+<p>For more information see the Gerber layer format <a class="reference external" href="https://www.ucamco.com/files/downloads/file_en/456/gerber-layer-format-specification-revision-2022-02_en.pdf">specification</a> section 5.6.7</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gerber_writer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerber_writer</span><span class="o">.</span><span class="n">set_generation_software</span><span class="p">(</span><span class="s1">&#39;KiCad&#39;</span><span class="p">,</span> <span class="s1">&#39;Pcbnew&#39;</span><span class="p">,</span> <span class="s1">&#39;(2017-02-08 revision 0dc1193)-master&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<span class="target" id="module-gerber_writer.padmasters"></span><section id="padmaster-classes-reference">
+<h2>Padmaster Classes Reference<a class="headerlink" href="#padmaster-classes-reference" title="Permalink to this headline"></a></h2>
+<p>A padmaster has the following attributes:</p>
+<ul class="simple">
+<li><p>shape:    Geometric shape, e.g. rectangle</p></li>
+<li><p>function: A pad function, e.g. ‘ViaPad’</p></li>
+<li><p>polarity: Positive or negative</p></li>
+</ul>
+<p>Padmasters are used to create pads by replicating them</p>
+<ul class="simple">
+<li><p>at a given point on the 2D plane</p></li>
+<li><p>under a given angle</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.ChamferedRectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">ChamferedRectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.ChamferedRectangle" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master, an axis-aligned rectangle with chamfered corner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_size</strong> (<em>float</em>) – Size along x-axis</p></li>
+<li><p><strong>y_size</strong> (<em>float</em>) – Size along y-axis</p></li>
+<li><p><strong>cutoff</strong> (<em>float</em>) – Cutoff distance from corner for the chamfer</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘SMDPad,CuDef’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.Circle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">Circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.Circle" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master with circular shape.</p>
+<p>A pad master serves to add pads to the graphics objects list. It defines
+their geometric shape, function and polarity (positive or negative).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diameter</strong> (<em>float</em>) – Diameter of the circular pads</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘ViaPad’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.Rectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">Rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.Rectangle" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master with an axis-aligned rectangular shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_size</strong> (<em>float</em>) – Size along x-axis</p></li>
+<li><p><strong>y_size</strong> (<em>float</em>) – Size along y-axis</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘SMDPad,CuDef’’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.RegularPolygon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">RegularPolygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.RegularPolygon" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master, with shape a regular convex polygon.</p>
+<p>One vertex is on the positive x-axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>outer_diameter</strong> (<em>float</em>) – Outer diameter, or diameter of the circumscribed circle</p></li>
+<li><p><strong>vertices</strong> (<em>int</em>) – Number of vertices</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘FiducialPad,Local’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.RoundedRectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">RoundedRectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.RoundedRectangle" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master, an ax-s-aligned rectangle with rounded corners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_size</strong> (<em>float</em>) – Size along x-axis</p></li>
+<li><p><strong>y_size</strong> (<em>float</em>) – Size along y-axis</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – Radius of the corner rounding</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘SMDPad,CuDef’’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.RoundedThermal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">RoundedThermal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.RoundedThermal" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master, circular thermal with four axis-aligned rounded gap openings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>outer_diameter</strong> (<em>float</em>) – Outer diameter of the thermal</p></li>
+<li><p><strong>inner_diameter</strong> (<em>float</em>) – Inner diameter of the thermal</p></li>
+<li><p><strong>gap</strong> (<em>float</em>) – Gap or conductor width beteen thermal barriers along the axis</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘ThermalReliefPad’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.Thermal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">Thermal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.Thermal" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master, circular thermal with four axis-aligned straight gap openings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>outer_diameter</strong> (<em>float</em>) – Outer diameter of the thermal</p></li>
+<li><p><strong>inner_diameter</strong> (<em>float</em>) – Inner diameter of the thermal</p></li>
+<li><p><strong>gap</strong> (<em>float</em>) – Gap or conductor width beteen thermal barriers along the axis</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘ThermalReliefPad’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gerber_writer.padmasters.UserPolygon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">UserPolygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.UserPolygon" title="Permalink to this definition"></a></dt>
+<dd><p>A pad master with a user defined shape.</p>
+<p>The shape is defined by its polygon outline or contour
+The outline must be closed: the last vertex must coincide with the first one.
+For more information about valied contours see the Gerber Layer Format specification _ section 4.10.3.
+The reference point, this is the point used to put the pad in the plane with add_pad, is the origin
+of the coordinate system used to define the outline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygon</strong> (<em>int</em>) – A tuple with the vertices of the polygon;  each vertex is a tuple (x, y)</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the pads e.g. ‘TestPad’</p></li>
+<li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Karel Tavernier.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
