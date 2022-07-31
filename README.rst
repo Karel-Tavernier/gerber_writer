@@ -39,7 +39,7 @@ Example::
 Installation
 ------------
 
-py -m pip install --index-url https://test.pypi.org/simple/ --no-deps gerber_writer
+py -m pip install gerber_writer
 
 Requirements
 ------------
