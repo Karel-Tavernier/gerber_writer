@@ -1,0 +1,163 @@
+G04 Created with the python gerber_writer 0.3.1*
+G04 #@! TF.CreationDate,2022-07-31T22:52:20.999901*
+G04 #@! TF.FileFunction,Copper,L1,Top,Signal*
+G04 #@! TF.FilePolarity,Positive*
+G04 #@! TF.GenerationSoftware,Karel Tavernier,gerber_writer_example.py,0.1.3*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMRectangle*
+0 Rectangle with straight corners*
+0 Uses primitive 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 rotation angle*
+4,1,4,
+$1,$2,
+$1,-$2,
+-$1,-$2,
+-$1,$2,
+$1,$2,
+$3*
+%
+%AMRoundedRectangle*
+0 Rectangle with rounded corners*
+0 Uses primitive 1 and 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 xsize/2-radius*
+0 $4 size/2-radius*
+0 $5 rotation angle*
+0 $6 diameter*
+0 $7 x of center of first quadrant circle*
+0 $8 y of center of first quadrant circle*
+0 $9 x of center of 2nd quadrant circle*
+0 $10 y of center of 2nd quadrant circle*
+4,1,8,
+$3,$2,
+$1,$4,
+$1,-$4,
+$3,-$2,
+-$3,-$2,
+-$1,-$4,
+-$1,$4,
+-$3,$2,
+$3,$2,
+$5*
+1,1,$6,$7,$8*
+1,1,$6,-$7,-$8*
+1,1,$6,$9,$10*
+1,1,$6,-$9,-$10*
+%
+%AMRoundedThermal*
+0 Circular thermal with rounded corners*
+0 $1 outer diameter*
+0 $2 inner diameter*
+0 $3 gap of straight thermal primitive*
+0 $4 rotation angle*
+0 $5 diameter rounding circles*
+0 $6 x coordinate of q1 along h axis circle, rotated*
+0 $7 y coordinate of q1 along h axis circle, rotated*
+0 $8 x coordinate of q1 along v axis circle, rotated*
+0 $9 y coordinate of q1 along v axis circle, rotated*
+7,0,0,$1,$2,$3,$4*
+1,1,$5,$6,$7*
+1,1,$5,-$7,$6*
+1,1,$5,-$6,-$7*
+1,1,$5,$7,-$6*
+1,1,$5,$8,$9*
+1,1,$5,-$9,$8*
+1,1,$5,-$8,-$9*
+1,1,$5,$9,-$8*
+1,0,$2,0,0*
+%
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,Rectangle,1.27,2.54,45*
+%ADD10Rectangle,0.635X1.27X45*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Conductor*
+G04 #@! TAShape,Circle,0.254*
+%ADD11C,0.254*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ViaPad*
+G04 #@! TAShape,Circle,0.508*
+%ADD12C,0.508*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,RoundedRectangle,1.257,2.286,0.254,0*
+%ADD13RoundedRectangle,0.6285X1.143X0.3745X0.889X0X0.508X0.3745X0.889X-0.3745X0.889*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,RoundedThermal,1,0.8,0.06,45*
+%ADD14RoundedThermal,1X0.8X0.182911X45X0.103913X0.253521X0.369418X-0.253521X0.369418*%
+G04 #@! TD*
+%LPD*%
+D10*
+X65093999Y47269000D03*
+X68047000Y50267000D03*
+D11*
+X65093999Y47269000D02*
+G01*
+X66093999Y48269000D01*
+D12*
+X66093999Y48269000D03*
+D13*
+X56515000Y47879000D03*
+X60341000Y47879000D03*
+X58428000Y43700000D03*
+D11*
+X60341000Y47879000D02*
+X62549000Y47879000D01*
+X64349999Y49657000D01*
+D12*
+X64349999Y49657000D03*
+D11*
+X58428000Y43700000D02*
+X65000000Y43700000D01*
+X69800000Y48500000D01*
+X68047000Y50267000D01*
+G04 #@! TA.AperFunction,Conductor*
+G36*
+X55000000Y50000000D02*
+X60800000Y50000000D01*
+G03*
+X63000000Y52200000I0J2200000D01*
+G01*
+X63000000Y56000000D01*
+X55000000Y56000000D01*
+X55000000Y50000000D01*
+G37*
+G04 #@! TD*
+%LPC*%
+D14*
+X60800000Y52200000D03*
+%LPD*%
+D12*
+X57200000Y53800000D03*
+D11*
+X56515000Y47879000D02*
+X56515000Y50419000D01*
+D12*
+X64000000Y53000000D03*
+D11*
+X64000000Y54000000D01*
+G02*
+X66000000Y56000000I2000000J0D01*
+G03*
+X67000000Y57000000I0J1000000D01*
+G01*
+X67000000Y59000000D01*
+D12*
+X67000000Y59000000D03*
+X65000000Y53000000D03*
+D11*
+X65000000Y54000000D01*
+G02*
+X66000000Y55000000I1000000J0D01*
+G03*
+X68000000Y57000000I0J2000000D01*
+G01*
+X68000000Y59000000D01*
+D12*
+X68000000Y59000000D03*
+M02*
