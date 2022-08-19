@@ -32,6 +32,8 @@ class Circle:
     
     A pad master serves to add pads to the graphics objects list. It defines
     their geometric shape, function and polarity (positive or negative).
+    The function attribute specifies what the funtions is of the pad, e.g. 'ViaPad' or 'ComponentPad'.
+    See .AperFunction values in the Gerber format specification.
 
     :param float diameter: Diameter of the circular pads
     :param str function: Function of the pads e.g. 'ViaPad'

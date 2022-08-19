@@ -14,7 +14,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..\src'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'gerber_writer'
@@ -22,7 +21,7 @@ copyright = '2022, Karel Tavernier'
 author = 'Karel Tavernier'
 
 # The full version, including alpha/beta/rc tags
-release = '0.3.4'
+release = '0.4.1.2'
 
 
 # -- General configuration ---------------------------------------------------
