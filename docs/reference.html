@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial and Reference &mdash; gerber_writer 0.3.4 documentation</title>
+  <title>Tutorial and Reference &mdash; gerber_writer 0.4.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Readme of gerber_writer" href="README.html" /> 
+    <link rel="next" title="Change log of gerber_writer" href="changelog.html" />
+    <link rel="prev" title="Readme" href="README.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,7 +39,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="README.html">Readme of gerber_writer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Readme</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial and Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gerber-format-a-primer">Gerber format - a primer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#graphics-objects">Graphics objects</a></li>
@@ -52,10 +53,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#general-classes">General Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pad-master-classes">Pad Master Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exceptions">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#artificial">Artificial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#synthetic">Synthetic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#a-pcb-profile">A PCB Profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#use-of-namedtuple">Use of NamedTuple</a></li>
 </ul>
@@ -64,6 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#padmaster-classes-reference">Padmaster Classes Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log of gerber_writer</a></li>
 </ul>
 
         </div>
@@ -135,10 +138,10 @@ Thus, in the presence of negative objects, the order of the graphics object list
 </section>
 <section id="function">
 <h3>Function<a class="headerlink" href="#function" title="Permalink to this headline"></a></h3>
-<p>File function attributes identify the content of function of the file, e.g. ‘SolderMask,Top’
+<p>File function attributes identify the content or function of the file, e.g. ‘SolderMask,Top’
 Valid file function attribute values are listed as .FileFunction values in the Gerber format specification.
 Without function the file is meaningless.</p>
-<p>Object function attributes identify their function, e.g. ‘ViaPad’, ‘Conductor’. 
+<p>Object function attributes identify the function of the object, e.g. ‘ViaPad’, ‘Conductor’. 
 Valid object values are listed as .AperFunction  values in the Gerber format specification.
 This meta-information is essential for bare-board fabrication.</p>
 </section>
@@ -187,11 +190,15 @@ The add_pad method replicates the padmaster at a given position and under a give
 <li><p><strong>set_generation_software</strong> - Identify the software that generated the Gerber file</p></li>
 </ul>
 </section>
+<section id="exceptions">
+<h3>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline"></a></h3>
+<p>TypeError and ValueError exceptions are thrown on inbalid inputs.</p>
+</section>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<section id="artificial">
-<h3>Artificial<a class="headerlink" href="#artificial" title="Permalink to this headline"></a></h3>
+<section id="synthetic">
+<h3>Synthetic<a class="headerlink" href="#synthetic" title="Permalink to this headline"></a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="n">DataLayer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gerber_writer</span> <span class="kn">import</span> <span class="p">(</span>
 <span class="gp">... </span>    <span class="n">Path</span><span class="p">,</span> <span class="n">set_generation_software</span><span class="p">,</span>
@@ -232,24 +239,24 @@ The add_pad method replicates the padmaster at a given position and under a give
 <span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_traces_path</span><span class="p">(</span><span class="n">con_3_IC17</span><span class="p">,</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Copper pour, rectangle with one rounded corner</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x_left</span> <span class="o">=</span> <span class="mi">55</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x_rite</span> <span class="o">=</span> <span class="mi">63</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_lft</span> <span class="o">=</span> <span class="mi">55</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_rgt</span> <span class="o">=</span> <span class="mi">63</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_bot</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_top</span> <span class="o">=</span> <span class="mi">56</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">x_rite</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="p">(</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rite</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_left</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">moveto</span><span class="p">((</span><span class="n">x_lft</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rgt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">arcto</span><span class="p">((</span><span class="n">x_rgt</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="p">(</span><span class="n">x_rgt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_rgt</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_lft</span><span class="p">,</span> <span class="n">y_top</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pour</span><span class="o">.</span><span class="n">lineto</span><span class="p">((</span><span class="n">x_lft</span><span class="p">,</span> <span class="n">y_bot</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_region</span><span class="p">(</span><span class="n">pour</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Thermal relief pad in copper pour</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">RoundedThermal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="s1">&#39;ThermalReliefPad&#39;</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="gp">... </span>            <span class="p">(</span><span class="n">x_rite</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="n">angle</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="n">x_rgt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_bot</span> <span class="o">+</span> <span class="n">radius</span><span class="p">),</span> <span class="n">angle</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Embedded  via pad in copper pour</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_top</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_pad</span><span class="p">(</span><span class="n">via_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">x_lft</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y_top</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect pin one of IC16 to copper pour</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">top</span><span class="o">.</span><span class="n">add_trace_line</span><span class="p">(</span><span class="n">footprint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="mf">56.515</span><span class="p">,</span> <span class="mf">47.879</span><span class="o">+</span><span class="mf">2.54</span><span class="p">),</span> <span class="n">trace_width</span><span class="p">,</span> <span class="s1">&#39;Conductor&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
@@ -282,7 +289,7 @@ The add_pad method replicates the padmaster at a given position and under a give
 </pre></div>
 </div>
 <p>This gerber file creates the following image:</p>
-<a class="reference internal image-reference" href="_images/2022_06_14_doctest_synthetic.png"><img alt="Image generated by doctest artificial example" src="_images/2022_06_14_doctest_synthetic.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="_images/doctest_synthetic.png"><img alt="Image generated by doctest artificial example" src="_images/doctest_synthetic.png" style="width: 800px;" /></a>
 </section>
 <section id="a-pcb-profile">
 <h3>A PCB Profile<a class="headerlink" href="#a-pcb-profile" title="Permalink to this headline"></a></h3>
@@ -304,7 +311,7 @@ The add_pad method replicates the padmaster at a given position and under a give
 </pre></div>
 </div>
 <p>The Gerber output files creates the following image:</p>
-<a class="reference internal image-reference" href="_images/2022_06_22_doctest_outline.png"><img alt="Image generated by doctest outline example" src="_images/2022_06_22_doctest_outline.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="_images/doctest_outline.png"><img alt="Image generated by doctest outline example" src="_images/doctest_outline.png" style="width: 800px;" /></a>
 </section>
 <section id="use-of-namedtuple">
 <h3>Use of NamedTuple<a class="headerlink" href="#use-of-namedtuple" title="Permalink to this headline"></a></h3>
@@ -332,7 +339,7 @@ The user can define his own NamedTuple and use it with this API:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>function</strong> (<em>str</em>) – Function of the layer e.g. ‘Soldermask,Bot’</p></li>
+<li><p><strong>function</strong> (<em>str</em>) – Function of the layer e.g. ‘Soldermask,Bot’. See .FileFunction values in the Gerber specification.</p></li>
 <li><p><strong>negative</strong> (<em>bool</em>) – Polarity, negative if True, positive if False (default)</p></li>
 </ul>
 </dd>
@@ -407,7 +414,7 @@ The user can define his own NamedTuple and use it with this API:</p>
 <p>The fundamental requirement for regions is that all subpaths must be closed,
 meaning that their end point exactoy coincides with the start point.
 Furthermore, the contours cannot be self-intersecting.
-For more information about valied contours see the Gerber Layer Format specification _ section 4.10.3.</p>
+For more information about valied contours see the Gerber Layer Fo(rmat specification _ section 4.10.3.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -646,7 +653,9 @@ See the DataLayer.add_region method for more details.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gerber_writer.padmasters.</span></span><span class="sig-name descname"><span class="pre">Circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gerber_writer.padmasters.Circle" title="Permalink to this definition"></a></dt>
 <dd><p>A pad master with circular shape.</p>
 <p>A pad master serves to add pads to the graphics objects list. It defines
-their geometric shape, function and polarity (positive or negative).</p>
+their geometric shape, function and polarity (positive or negative).
+The function attribute specifies what the funtions is of the pad, e.g. ‘ViaPad’ or ‘ComponentPad’.
+See .AperFunction values in the Gerber format specification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -769,7 +778,8 @@ of the coordinate system used to define the outline</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="README.html" class="btn btn-neutral float-left" title="Readme of gerber_writer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral float-left" title="Readme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Change log of gerber_writer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -12,6 +12,7 @@ A simple API for writing Gerber files
    
    README
    reference
+   changelog
 
 * :ref:`genindex`
 

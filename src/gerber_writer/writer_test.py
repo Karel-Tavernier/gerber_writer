@@ -22,7 +22,6 @@ class TestDataLayer(unittest.TestCase):
         def body_md5(layer):
             """Return a string with the md5 of the body of the gerber string of the layer"""
             tested_gerber_section = (layer.dumps_gerber().partition('.CreationDate')[2])[30:]
-#            print(tested_gerber_section)
             return (hashlib.md5(tested_gerber_section .encode())).hexdigest()
 
         # Test Circle
@@ -425,8 +424,8 @@ class TestDataLayer(unittest.TestCase):
             self.assertTrue(False, 'add_traces with invalid argument accepted')
         except TypeError:
             pass
-        test_layer.add_trace_arc((-2, 2), (-2, -2), (-1.5, 2),'+', 0.2, 'Conductor')
-        test_layer.add_trace_arc((-1.5, 1.5), (-1, 1), (-1.5, 1), '-', 0.04, 'Conductor')
+        test_layer.add_trace_arc((-2, 2), (-2, -2), (-1.5, 0),'+', 0.2, 'Conductor')
+        test_layer.add_trace_arc((-1.5, 1.5), (-1, 1), (-1, 1.5), '-', 0.04, 'Conductor')
         test_layer.add_region(region_2, 'Other,test', negative=False)
         try:            
             test_layer.add_region((-1, -2), (-0.5, -1.5), 0.2, 'Conductor')

@@ -1,7 +1,7 @@
 """Sample gerber_writer file"""
 # Copyright Karel Tavernier
 
-version = '0.1.3'  # gerber_writer version written in Gerber file
+version = '0.1.4'  # gerber_writer version written in Gerber file
 
 from gerber_writer import DataLayer
 from gerber_writer import (
@@ -47,24 +47,24 @@ con_3_IC17.lineto(p3)
 top.add_traces_path(con_3_IC17, trace_width, 'Conductor')
 
 # Copper pour, rectangle with one rounded corner
-x_left = 55
-x_rite = 63
+x_lft = 55
+x_rgt = 63
 y_bot = 50
 y_top = 56
 radius = 2.2
 pour = Path()
-pour.moveto((x_left, y_bot))
-pour.lineto((x_rite - radius, y_bot))
-pour.arcto((x_rite, y_bot + radius), (x_rite - radius, y_bot + radius), '+')
-pour.lineto((x_rite, y_top))
-pour.lineto((x_left, y_top))
-pour.lineto((x_left, y_bot))
+pour.moveto((x_lft, y_bot))
+pour.lineto((x_rgt - radius, y_bot))
+pour.arcto((x_rgt, y_bot + radius), (x_rgt - radius, y_bot + radius), '+')
+pour.lineto((x_rgt, y_top))
+pour.lineto((x_lft, y_top))
+pour.lineto((x_lft, y_bot))
 top.add_region(pour, 'Conductor')
 # Thermal relief pad in copper pour
 top.add_pad(RoundedThermal(1, 0.8, 0.06, 'ThermalReliefPad', negative=True),
-            (x_rite - radius, y_bot + radius), angle=45)
+            (x_rgt - radius, y_bot + radius), angle=45)
 # Embedded  via pad in copper pour
-top.add_pad(via_pad, (x_left + radius, y_top - radius))
+top.add_pad(via_pad, (x_lft + radius, y_top - radius))
 # Connect pin 1 of IC16 to copper pour
 top.add_trace_line(t1, (56.515, 47.879+2.54), trace_width, 'Conductor')
 

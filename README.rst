@@ -1,52 +1,56 @@
-Readme of gerber_writer
-=======================
+Readme
+======
 
 Purpose
 -------
 
 A Python library for writing Gerber files. 
 
-Its benefits over writing Gerber files directly from the spec are:
-
 * No need to read the 200 page Gerber format specification.
-* A much simpler API than the Gerber format specification -8 pages vs 200,
-* Built-in pad with all common shapes.
-* User-defined pad for special shapes
+* API much simpler than the Gerber format specification - 8 pages vs 200.
+* All common pad shapes built-in.
+* User-defined pad special shapes
 * 100% compliance with the specification, rev 2022.02.
-* Conservative, robust output files. Risky constructions that fail in some buggy implementations are avoided.
-* Include meta information need for fabrication, such as what pads are via, in a standardized manner.
-* Input methods verify whether the parameters comply with the Gerber spec.
+* Conservative, robust output files.
+* Risky constructs that fail in some buggy implementations are not used.
+* Include standardized meta information needed for fabrication, such as which pads are vias.
+* Verify whether the input parameters comply with the Gerber spec.
 * Stateless input (the gerber_writer takes care of the Gerber states).
 
 Example:: 
 
-	from gerber_writer import DataLayer, Path    
-	profile_layer = DataLayer('Profile,NP')    
-	profile = Path()
-	profile.moveto((0, 0))
-	profile.lineto((150, 0))
-	profile.arcto((160, 10), (160, 0), '-')
-	profile.lineto((170, 10))
-	profile.lineto((170, 90))
-	profile.lineto((160, 90))
-	profile.arcto((150, 100), (160, 100), '-')
-	profile.lineto((0, 100))
-	profile.lineto((0, 0))
-	profile_layer.add_traces_path(profile, 0.5, 'Profile')
-	with open('gerbers\profile.gbr', 'w') as outfile:
-		profile_layer.dump_gerber(outfile)
+	from gerber_writer import DataLayer, Circle, RoundedRectangle
+		
+	trace_width = 0.127
+	via_pad = Circle(0.508, 'ViaPad')
+	IC17_toe = RoundedRectangle(1.257, 2.286, 0.254, 'SMDPad,CuDef')
+	toe_point = (0, 2.54)
+	via_point = (5.08, 0)
+
+	top = DataLayer('Copper,L1,Top,Signal')
+
+	top.add_pad(IC17_toe, toe_point, angle=45)
+	top.add_trace_line(toe_point, (2.54, 0), trace_width, 'Conductor')
+	top.add_trace_line((2.54, 0), via_point, trace_width, 'Conductor')
+	top.add_pad(via_pad, via_point)
+
+	with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
+	    top.dump_gerber(outfile)
+		
+.. image:: example_small.png
+	:width: 800
 
 Installation
 ------------
 
-py -m pip install gerber_writer
+$ py -m pip install gerber_writer
 
 Requirements
 ------------
 
 * Python 3.10 or higher
 * Standard library only.
-* OS independent. Only tested on Windows 11. Let me know if you tested it on other OSs.
+* OS independent.
 
 License
 -------
