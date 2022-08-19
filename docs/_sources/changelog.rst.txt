@@ -2,6 +2,10 @@
 Change log of gerber_writer
 ===========================
 
+Version 0.4.1.1
+--------------- 
+
+- Correct link to image in README.rst
 
 Version 0.4.1
 -------------
