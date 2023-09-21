@@ -18,5 +18,5 @@ profile.arcto((150, 100), (160, 100), '-')
 profile.lineto((0, 100))
 profile.lineto((0, 0))
 profile_layer.add_traces_path(profile, 0.5, 'Profile')
-with open('gerbers\gerber_writer_example_outline.gbr', 'w') as outfile:
+with open('gerbers/gerber_writer_example_outline.gbr', 'w') as outfile:
     profile_layer.dump_gerber(outfile)

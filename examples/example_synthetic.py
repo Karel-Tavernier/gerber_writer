@@ -89,7 +89,7 @@ connection_b.arcto((trace_start[0]+3, trace_start[1]+4), (trace_start[0]+1, trac
 connection_b.lineto((trace_start[0]+3, trace_start[1]+6))
 top.add_traces_path(connection_b, trace_width, 'Conductor')
 top.add_pad(via_pad, (trace_start[0]+3, trace_start[1]+6), 0)
-with open('gerbers\gerber_writer_example_synthetic.gbr', 'w') as outfile:
+with open('gerbers/gerber_writer_example_synthetic.gbr', 'w') as outfile:
     top.dump_gerber(outfile)
 
 

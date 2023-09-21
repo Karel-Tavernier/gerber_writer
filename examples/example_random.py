@@ -10,7 +10,7 @@ from gerber_writer import (DataLayer, Circle)
 
 
 RANGE = 1_000
-ITERATIONS = 10_000
+ITERATIONS = 1000
 
 def random_point(): return (uniform(-RANGE, RANGE), uniform(-RANGE, RANGE))
 
@@ -32,7 +32,7 @@ for _ in range(ITERATIONS):
     start_point = next_point
 end_add_traces = time()
 print('Add lines (s):', end_add_traces - end_add_pad)
-with open('gerbers\gerber_writer_random.gbr', 'w') as outfile:
+with open('gerbers/gerber_writer_random.gbr', 'w') as outfile:
     layer.dump_gerber(outfile)
 end_dump = time()
 print('Dump to file (s):', end_dump - end_add_traces)
