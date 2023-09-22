@@ -1,5 +1,5 @@
 G04 Created with the python gerber_writer 0.4.1.2*
-G04 #@! TF.CreationDate,2023-08-02T20:57:14.376901*
+G04 #@! TF.CreationDate,2023-09-22T21:19:25.761312*
 G04 #@! TF.FileFunction,Copper,L1,Top,Signal*
 G04 #@! TF.FilePolarity,Positive*
 G04 #@! TF.GenerationSoftware,Karel Tavernier,gerber_writer_example.py,0.1.4*

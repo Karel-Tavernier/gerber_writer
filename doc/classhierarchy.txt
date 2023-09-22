@@ -1,0 +1,29 @@
+CLASSES AND NESTED CLASSES
+_MoveTo
+_LineTo
+_ArcTo
+
+Path
+
+DataLayer
+	_Pad
+	_Region
+	_TracesPath
+=========================================
+
+CLASSES AND MEMBERS
+Path													413												
+	operators: 
+	current_point
+	start_point
+	contour
+	pointMax
+
+DataLayer												521
+	function
+	negative
+	g_o_stream: list of _Pad | _Region | _TracesPath
+	pointMax	
+	integerdigits
+
+

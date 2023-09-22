@@ -3,8 +3,8 @@
 
 version = '0.1.4'  # gerber_writer version written in Gerber file
 
-from gerber_writer import DataLayer
-from gerber_writer import (
+from src.gerber_writer.writer  import DataLayer
+from src.gerber_writer.writer  import (
     Path, set_generation_software,
     Circle, Rectangle, RoundedRectangle, RoundedThermal
     )

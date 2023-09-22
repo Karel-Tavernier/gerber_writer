@@ -3,7 +3,7 @@
 # KT, 22-May-2022
 version = '0.3.1'
 
-from gerber_writer import (DataLayer, Path, set_generation_software)
+from src.gerber_writer.writer import (DataLayer, Path, set_generation_software)
     
 set_generation_software('Karel Tavernier', 'gerber_writer_example_outline.py', version)    
 profile_layer = DataLayer('Profile,NP')    

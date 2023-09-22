@@ -107,7 +107,7 @@ Methods
 Exceptions
 ----------
 
-TypeError and ValueError exceptions are thrown on inbalid inputs.
+TypeError and ValueError exceptions are thrown on invalid inputs.
 
 Examples
 ========
@@ -273,8 +273,6 @@ import math
 from src.gerber_writer.lutils import report_with_line
 # import inspect    # for debug reporting
 
-# from gerber_writer.__init__ import __version__
-# from gerber_writer.padmasters import (
 from src.gerber_writer.__init__ import __version__
 from src.gerber_writer.padmasters import (
     Circle,
@@ -297,11 +295,8 @@ Point = Tuple[float, float]
 """Point in 2D image plane."""
 
 # adf
-# def report_with_line(s):
-#     print('line {} {}'.format(inspect.currentframe().f_back.f_lineno , s))
-
 def _pnt_max(a: Point , b: Point ) -> Point :
-    """return maxima of the elements per index and return tem as a point   """
+    """return maxima of the elements per index and return them as a point   """
     return (max(abs(a[0]), abs(b[0])), max(abs(a[1]), abs(b[1])))
 # end adf
 
@@ -520,7 +515,6 @@ class Path:
         else:
             self.contour = False
 # adf
-# adf 230913  todo: path stretches beyond end point, because of circle  -- KT 230915: "don't bother"
         self.pointMax = _pnt_max(end, self.pointMax)
 
 class DataLayer:
@@ -599,7 +593,8 @@ class DataLayer:
         self.negative = negative
         self.g_o_stream: List = list()
 # adf
-        self.integerdigits = (0, 0)
+        self.pointMax = (0,0)
+        self.integerdigits = (0,0)
 
     def __repr__(self):
         """DataLayer attributes and list of graphics objects.
@@ -657,6 +652,11 @@ class DataLayer:
             raise TypeError('angle must be int or float')                        
         # to be expanded with real checks on function, probably using regex
         self.g_o_stream.append(DataLayer._Pad(master, position, angle))
+
+# adf
+        report_with_line(f'line has position {position} and datalayer has max {self.pointMax}')
+        self.pointMax = _pnt_max(position, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
     
     def add_trace_line(self, start: Point, end: Point, width: float, function: str, negative: bool=False):
         """Add straight line trace to DataLayer.
@@ -690,7 +690,11 @@ class DataLayer:
         line.moveto(start)
         line.lineto(end)      
         self.g_o_stream.append(DataLayer._TracesPath(line, width, function, negative))
-    
+# adf
+        report_with_line(f'line has max {line.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(line.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
+
     def add_trace_arc(self, start: Point, end: Point, center: Point, orientation: str, width: float, function: str, negative: bool=False):
         """Add circular arc trace to DataLayer.
         
@@ -725,7 +729,11 @@ class DataLayer:
         arc = Path()
         arc.moveto(start)
         arc.arcto(end, center, orientation)      
-        self.g_o_stream.append(DataLayer._TracesPath(arc, width, function, negative))            
+        self.g_o_stream.append(DataLayer._TracesPath(arc, width, function, negative))
+# adf
+        report_with_line(f'trace_arc has max {arc.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(arc.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
         
     def add_traces_path(self, path: Path, width: float, function: str, negative: bool=False):
         """Add traces by stroking a path.
@@ -759,6 +767,10 @@ class DataLayer:
         if not isinstance(negative, bool):
             raise TypeError('negative flag is not bool')        
         self.g_o_stream.append(DataLayer._TracesPath(path, width, function, negative))
+# adf
+        report_with_line(f'line has max {path.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(path.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
         
     def add_region(self, path: Path, function: str, negative: bool=False):
         """Add a region graphics object to the DataLayer.
@@ -793,9 +805,10 @@ class DataLayer:
         if path.contour == False: raise ValueError('some subpaths are not closed')
         self.g_o_stream.append(DataLayer._Region(path, function, negative))
 # adf
-        report_with_line('(x_max, y_max):   {}'.format(path.pointMax  ) )
-        self.integerdigits = (max(int(math.log(path.pointMax[0], 10)), 3), max(int(math.log(path.pointMax[1], 10)), 3))
-       
+        self.pointMax = _pnt_max(path.pointMax, self.pointMax)
+        report_with_line(f'(x_max, y_max):   {path.pointMax}' )
+        # self.integerdigits = (max(int(math.log(path.pointMax[0], 10)), 3), max(int(math.log(path.pointMax[1], 10)), 3))
+
     def dumps_gerber(self) -> str:
         '''Return a string in Gerber format representing the DataLayer.'''
         
@@ -1195,12 +1208,13 @@ class DataLayer:
                 )
         all_commands.append('%MOMM*%')
 # adf 230918
-        report_with_line('(x_interdigits, y_interdigits) = {}'.format(self.integerdigits))
+        self.integerdigits = (max(int(math.log(self.pointMax[0], 10)), 3), max(int(math.log(self.pointMax[1], 10)), 3))
+        report_with_line(f'(x_interdigits, y_interdigits) = {self.integerdigits}')
 
 # adf
         # all_commands.append('%FSLAX36Y36*%')
         max_integerdigits = max(self.integerdigits[0], self.integerdigits[1])
-        all_commands.append('%FSLAX{}6Y{}6*%'.format(max_integerdigits, max_integerdigits))
+        all_commands.append(f'%FSLAX{max_integerdigits}6Y{max_integerdigits}6*%')
 # end adf
         all_commands.append('G75*')
         # Macro commands
