@@ -4,7 +4,7 @@ Readme
 Purpose
 -------
 
-A Python library for writing Gerber files. 
+A Python library for writing Gerber files.
 
 * No need to read the 200 page Gerber format specification.
 * API much simpler than the Gerber format specification - 8 pages vs 200.
@@ -17,10 +17,12 @@ A Python library for writing Gerber files.
 * Verify whether the input parameters comply with the Gerber spec.
 * Stateless input (the gerber_writer takes care of the Gerber states).
 
-Example:: 
+Example:
+
+.. code-block:: python
 
 	from gerber_writer import DataLayer, Circle, RoundedRectangle
-		
+
 	trace_width = 0.127
 	via_pad = Circle(0.508, 'ViaPad')
 	IC17_toe = RoundedRectangle(1.257, 2.286, 0.254, 'SMDPad,CuDef')
@@ -36,14 +38,30 @@ Example::
 
 	with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
 	    top.dump_gerber(outfile)
-		
-.. image:: example_small.png
+
+.. image:: https://github.com/Karel-Tavernier/gerber_writer/assets/56170852/7b351186-9cdc-4cc0-9f3b-04708ee50216
 	:width: 800
 
 Installation
 ------------
 
-$ py -m pip install gerber_writer
+This package requires Python 3.10 or later, you can find it `here <https://www.python.org/downloads/>`_.
+
++++++++
+Windows
++++++++
+
+.. code-block:: batch
+
+	$ py -m pip install gerber_writer
+
++++++
+Linux
++++++
+
+.. code-block:: batch
+
+	$ python3 -m pip install gerber_writer
 
 Requirements
 ------------
@@ -56,8 +74,8 @@ License
 -------
 
 Apache 2.0 license
- 
+
 Contact
 -------
- 
+
 karel_tavernier@hotmail.com
