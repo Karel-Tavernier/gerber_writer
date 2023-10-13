@@ -115,8 +115,8 @@ Examples
 Synthetic
 ---------
 
->>> from gerber_writer import DataLayer
->>> from gerber_writer import (
+>>> from src.gerber_writer.writer import DataLayer
+>>> from src.gerber_writer.writer import (
 ...     Path, set_generation_software,
 ...     Circle, Rectangle, RoundedRectangle, RoundedThermal
 ...     )
@@ -213,7 +213,7 @@ This gerber file creates the following image:
 A PCB Profile
 -------------
 
->>> from gerber_writer import (DataLayer, Path, set_generation_software)
+>>> from src.gerber_writer import (DataLayer, Path, set_generation_software)
 >>>     
 >>> set_generation_software('Karel Tavernier', 'gerber_writer_example_outline.py', '2022.06')    
 >>> profile_layer = DataLayer('Profile,NP')    
@@ -242,7 +242,7 @@ Use of NamedTuple
 Points in the plane are consistently represented as a Tuple[float, float].
 The user can define his own NamedTuple and use it with this API:
 
->>> from gerber_writer import Circle, DataLayer
+>>> from src.gerber_writer import Circle, DataLayer
 >>> from typing import NamedTuple
 >>> class Pnt(NamedTuple):
 ...     x: float
@@ -313,7 +313,7 @@ def _pnt_rotate(point: Point, angle: float) -> Point:
 
 def _pnt_linf(a: Point, b: Point) -> float:
     """Return Linf distance
-    >>> from gerber_writer.writer import _pnt_linf
+    >>> from src.gerber_writer.writer import _pnt_linf
     >>> _pnt_linf((0, 0), (1, -2.3))
     2.3
     
@@ -322,7 +322,7 @@ def _pnt_linf(a: Point, b: Point) -> float:
     
 def _pnt_l2(a: Point, b: Point) -> float:
     """Return L2 or Euclidian distance
-    >>> from gerber_writer.writer import _pnt_l2
+    >>> from src.gerber_writer.writer import _pnt_l2
     >>> _pnt_l2((0, 0), (3, -4))
     5.0
     
@@ -331,7 +331,7 @@ def _pnt_l2(a: Point, b: Point) -> float:
     
 def _pnt_orientation(center: Point, p0: Point, p1: Point) -> str:
     """Return orientation of segment (p0, p1) viewed from center
-    >>> from gerber_writer.writer import _pnt_orientation
+    >>> from src.gerber_writer.writer import _pnt_orientation
     >>> _pnt_orientation((1, 1), (1, 2), (2, 2))
     '-'
     
@@ -432,7 +432,7 @@ class Path:
     :example:
     
     >>> # Define a region with one contour.
-    >>> from gerber_writer import Path    
+    >>> from src.gerber_writer import Path
     >>> d_shape = Path()
     >>> d_shape.moveto((0, 0))
     >>> d_shape.lineto((1, 0))
@@ -745,7 +745,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from gerber_writer import DataLayer, Path    
+        >>> from src.gerber_writer import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> connection = Path()
         >>> connection.moveto((0, 0))
@@ -781,7 +781,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from gerber_writer import DataLayer, Path    
+        >>> from src.gerber_writer import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> d_shape = Path()
         >>> d_shape.moveto((0, 0))
