@@ -1,6 +1,5 @@
-import math
 version = '0.3.1'
-from src.gerber_writer.writer import (DataLayer, Path, set_generation_software)
+from src.pius import (DataLayer, Path, set_generation_software)
 
 def atest(profile):
     right = 12000

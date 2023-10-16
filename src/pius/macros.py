@@ -1,4 +1,4 @@
-'''Strings, each defining a macro used by the gerber_writer'''
+'''Strings, each defining a macro used by the pius'''
 # Copyright: Karel Tavernier
 # Date: 20-Jun-2022
 # License: Apache 2.0 License

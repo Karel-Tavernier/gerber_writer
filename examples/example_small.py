@@ -1,8 +1,8 @@
-"""gerber_writer small sample file"""
+"""pius small sample file"""
 # Copyright: Karel Tavernier
 # Creation date: 18-August-2022
 
-from src.gerber_writer.writer import DataLayer, Circle, RoundedRectangle
+from pius import DataLayer, Circle, RoundedRectangle
 
 trace_width = 0.508
 via_pad = Circle(0.508, 'ViaPad')

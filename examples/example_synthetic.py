@@ -1,10 +1,10 @@
-"""Sample gerber_writer file"""
+"""Sample pius file"""
 # Copyright Karel Tavernier
 
-version = '0.1.4'  # gerber_writer version written in Gerber file
+version = '0.1.4'  # pius version written in Gerber file
 
-from src.gerber_writer.writer  import DataLayer
-from src.gerber_writer.writer  import (
+from gerber_writer import DataLayer
+from gerber_writer import (
     Path, set_generation_software,
     Circle, Rectangle, RoundedRectangle, RoundedThermal
     )

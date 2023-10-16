@@ -6,9 +6,9 @@ import hashlib
 # import os
 import pytest
 
-from src.gerber_writer.writer import _pnt_orientation
+from src.pius.writer import _pnt_orientation
 # from writer import _pnt_orientation
-from src.gerber_writer.writer import DataLayer
+from src.pius import DataLayer
 
 
 def body_md5(layer):
@@ -18,7 +18,7 @@ def body_md5(layer):
 
 
 output_gerbers = True  # Useful during debugging to have the gerbers for inspection
-folder = '/home/alaindef/projects/pycharm-projects-py3/gerber_writer/tools/gerbers/'  # Root directory for gerbers
+folder = '/home/alaindef/projects/pycharm-projects-py3/pius/tools/gerbers/'  # Root directory for gerbers
 
 
 # folder = '../examples/gerbers/' # Root directory for gerbers

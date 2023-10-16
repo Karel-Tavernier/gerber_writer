@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "pius"
 version = "0.1.0"
-description = "A library to write Gerber files"
+description = ""
 authors = ["alaindef <alain.de.feyter@gmail.com>"]
-readme = "README.rst"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"

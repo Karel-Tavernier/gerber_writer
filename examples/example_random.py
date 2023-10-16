@@ -6,7 +6,7 @@ from math import sqrt
 from random import uniform
 from time import time
 
-from src.gerber_writer.writer import (DataLayer, Circle)
+from gerber_writer import (DataLayer, Circle)
 
 
 RANGE = 1_000

@@ -4,7 +4,7 @@
 version = '0.3.4'
 
 import pytest
-from src.gerber_writer.writer import DataLayer, Path
+from src.pius import DataLayer, Path
 
 
 def test_contour_validity():

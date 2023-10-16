@@ -3,10 +3,9 @@
 version = '0.3.1'
 
 import hashlib
-import os
 import unittest
-from src.gerber_writer.writer import DataLayer
-from src.gerber_writer.writer import (
+from src.pius.writer import DataLayer
+from src.pius.writer import (
     Path, set_generation_software,
     Circle, Rectangle, RoundedRectangle, ChamferedRectangle,
     Thermal, RoundedThermal, RegularPolygon,  UserPolygon,

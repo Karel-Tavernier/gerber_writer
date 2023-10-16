@@ -115,8 +115,8 @@ Examples
 Synthetic
 ---------
 
->>> from src.gerber_writer.writer import DataLayer
->>> from src.gerber_writer.writer import (
+>>> from src.pius import DataLayer
+>>> from src.pius import (
 ...     Path, set_generation_software,
 ...     Circle, Rectangle, RoundedRectangle, RoundedThermal
 ...     )
@@ -213,7 +213,7 @@ This gerber file creates the following image:
 A PCB Profile
 -------------
 
->>> from src.gerber_writer import (DataLayer, Path, set_generation_software)
+>>> from src.pius import (DataLayer, Path, set_generation_software)
 >>>     
 >>> set_generation_software('Karel Tavernier', 'gerber_writer_example_outline.py', '2022.06')    
 >>> profile_layer = DataLayer('Profile,NP')    
@@ -242,7 +242,7 @@ Use of NamedTuple
 Points in the plane are consistently represented as a Tuple[float, float].
 The user can define his own NamedTuple and use it with this API:
 
->>> from src.gerber_writer import Circle, DataLayer
+>>> from src.pius import Circle, DataLayer
 >>> from typing import NamedTuple
 >>> class Pnt(NamedTuple):
 ...     x: float
@@ -270,11 +270,11 @@ import types
 
 # adf
 import math
-from src.gerber_writer.lutils import report_with_line
+from src.pius.lutils import report_with_line
 # import inspect    # for debug reporting
 
-from src.gerber_writer.__init__ import __version__
-from src.gerber_writer.padmasters import (
+from src.pius import __version__
+from src.pius.padmasters import (
     Circle,
     Rectangle,
     RoundedRectangle,
@@ -313,7 +313,7 @@ def _pnt_rotate(point: Point, angle: float) -> Point:
 
 def _pnt_linf(a: Point, b: Point) -> float:
     """Return Linf distance
-    >>> from src.gerber_writer.writer import _pnt_linf
+    >>> from src.pius import _pnt_linf
     >>> _pnt_linf((0, 0), (1, -2.3))
     2.3
     
@@ -322,7 +322,7 @@ def _pnt_linf(a: Point, b: Point) -> float:
     
 def _pnt_l2(a: Point, b: Point) -> float:
     """Return L2 or Euclidian distance
-    >>> from src.gerber_writer.writer import _pnt_l2
+    >>> from src.pius import _pnt_l2
     >>> _pnt_l2((0, 0), (3, -4))
     5.0
     
@@ -331,7 +331,7 @@ def _pnt_l2(a: Point, b: Point) -> float:
     
 def _pnt_orientation(center: Point, p0: Point, p1: Point) -> str:
     """Return orientation of segment (p0, p1) viewed from center
-    >>> from src.gerber_writer.writer import _pnt_orientation
+    >>> from src.pius import _pnt_orientation
     >>> _pnt_orientation((1, 1), (1, 2), (2, 2))
     '-'
     
@@ -401,8 +401,8 @@ def set_generation_software(vendor: str, application: str, version: str):
      
     :Example:
     
-    >>> import gerber_writer
-    >>> gerber_writer.set_generation_software('KiCad', 'Pcbnew', '(2017-02-08 revision 0dc1193)-master')
+    >>> from src import pius
+    >>> pius.set_generation_software('KiCad', 'Pcbnew', '(2017-02-08 revision 0dc1193)-master')
      
     """
     _generation_software.vendor = _santize_field(vendor)
@@ -432,7 +432,7 @@ class Path:
     :example:
     
     >>> # Define a region with one contour.
-    >>> from src.gerber_writer import Path
+    >>> from src.pius import Path
     >>> d_shape = Path()
     >>> d_shape.moveto((0, 0))
     >>> d_shape.lineto((1, 0))
@@ -745,7 +745,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from src.gerber_writer import DataLayer, Path
+        >>> from src.pius import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> connection = Path()
         >>> connection.moveto((0, 0))
@@ -781,7 +781,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from src.gerber_writer import DataLayer, Path
+        >>> from src.pius import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> d_shape = Path()
         >>> d_shape.moveto((0, 0))
@@ -1191,7 +1191,7 @@ class DataLayer:
         # Construct list of all commands
         # Header
         all_commands: List = list() # Stream of all commands that will be in the Gerber file
-        all_commands.append(f'G04 Created with the python gerber_writer {__version__}*')
+        all_commands.append(f'G04 Created with the python pius {__version__}*')
         all_commands.append(f'G04 #@! TF.CreationDate,{datetime.datetime.now().isoformat()}*')
         if self.function != '':
             all_commands.append(f'G04 #@! TF.FileFunction,{self.function}*')
