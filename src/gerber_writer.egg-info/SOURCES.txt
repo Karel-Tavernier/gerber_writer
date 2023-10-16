@@ -1,7 +1,0 @@
-pyproject.toml
-src/gerber_writer.egg-info/PKG-INFO
-src/gerber_writer.egg-info/SOURCES.txt
-src/gerber_writer.egg-info/dependency_links.txt
-src/gerber_writer.egg-info/top_level.txt
-tests/test_arcs.py
-tests/test_contours.py

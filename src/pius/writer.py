@@ -115,8 +115,8 @@ Examples
 Synthetic
 ---------
 
->>> from src.pius import DataLayer
->>> from src.pius import (
+>>> from pius import DataLayer
+>>> from pius import (
 ...     Path, set_generation_software,
 ...     Circle, Rectangle, RoundedRectangle, RoundedThermal
 ...     )
@@ -213,7 +213,7 @@ This gerber file creates the following image:
 A PCB Profile
 -------------
 
->>> from src.pius import (DataLayer, Path, set_generation_software)
+>>> from pius import (DataLayer, Path, set_generation_software)
 >>>     
 >>> set_generation_software('Karel Tavernier', 'gerber_writer_example_outline.py', '2022.06')    
 >>> profile_layer = DataLayer('Profile,NP')    
@@ -242,7 +242,7 @@ Use of NamedTuple
 Points in the plane are consistently represented as a Tuple[float, float].
 The user can define his own NamedTuple and use it with this API:
 
->>> from src.pius import Circle, DataLayer
+>>> from pius import Circle, DataLayer
 >>> from typing import NamedTuple
 >>> class Pnt(NamedTuple):
 ...     x: float
@@ -268,13 +268,13 @@ from math import sqrt, sin, cos, acos, radians
 from typing import NamedTuple, Set, Dict, List, Tuple, Deque
 import types
 
-# adf
+# adf  #todo check if import math is needed
 import math
-from src.pius.lutils import report_with_line
+from .lutils import report_with_line
 # import inspect    # for debug reporting
 
-from src.pius import __version__
-from src.pius.padmasters import (
+from .__init__ import __version__
+from .padmasters import (
     Circle,
     Rectangle,
     RoundedRectangle,
@@ -313,7 +313,7 @@ def _pnt_rotate(point: Point, angle: float) -> Point:
 
 def _pnt_linf(a: Point, b: Point) -> float:
     """Return Linf distance
-    >>> from src.pius import _pnt_linf
+    >>> from pius.writer import _pnt_linf
     >>> _pnt_linf((0, 0), (1, -2.3))
     2.3
     
@@ -322,7 +322,7 @@ def _pnt_linf(a: Point, b: Point) -> float:
     
 def _pnt_l2(a: Point, b: Point) -> float:
     """Return L2 or Euclidian distance
-    >>> from src.pius import _pnt_l2
+    >>> from pius.writer import _pnt_l2
     >>> _pnt_l2((0, 0), (3, -4))
     5.0
     
@@ -331,7 +331,7 @@ def _pnt_l2(a: Point, b: Point) -> float:
     
 def _pnt_orientation(center: Point, p0: Point, p1: Point) -> str:
     """Return orientation of segment (p0, p1) viewed from center
-    >>> from src.pius import _pnt_orientation
+    >>> from pius.writer import _pnt_orientation
     >>> _pnt_orientation((1, 1), (1, 2), (2, 2))
     '-'
     
@@ -401,7 +401,7 @@ def set_generation_software(vendor: str, application: str, version: str):
      
     :Example:
     
-    >>> from src import pius
+    >>> import pius
     >>> pius.set_generation_software('KiCad', 'Pcbnew', '(2017-02-08 revision 0dc1193)-master')
      
     """
@@ -432,7 +432,7 @@ class Path:
     :example:
     
     >>> # Define a region with one contour.
-    >>> from src.pius import Path
+    >>> from pius import Path
     >>> d_shape = Path()
     >>> d_shape.moveto((0, 0))
     >>> d_shape.lineto((1, 0))
@@ -745,7 +745,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from src.pius import DataLayer, Path
+        >>> from pius import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> connection = Path()
         >>> connection.moveto((0, 0))
@@ -781,7 +781,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from src.pius import DataLayer, Path
+        >>> from pius import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> d_shape = Path()
         >>> d_shape.moveto((0, 0))

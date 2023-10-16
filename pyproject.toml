@@ -1,14 +1,29 @@
-[tool.poetry]
-name = "pius"
-version = "0.1.0"
-description = "A library to write Gerber files"
-authors = ["alaindef <alain.de.feyter@gmail.com>"]
-readme = "README.rst"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "pius"
+version = "0.1.8"
+authors = [
+  { name="Karel Tavernier", email="karel_tavernier@hotmail.com" },
+]
+description = "A library to write Gerber files"
+readme = "README.rst"
+license = { text ="Apache 2.0 License" }
+requires-python = ">=3.10"
+keywords = ["Gerber", "RS-274X", "PCB", "CAD", "CAM", "library"]
+dependencies = []
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+	"License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+	"Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+	"Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+	"Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Karel-Tavernier/gerber_writer"
+"Documentation"= "https://karel-tavernier.github.io/gerber_writer/"

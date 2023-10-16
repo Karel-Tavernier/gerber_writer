@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: gerber-writer
-Version: 0.4.2.6
+Name: pius
+Version: 0.1.8
 Summary: A library to write Gerber files
 Author-email: Karel Tavernier <karel_tavernier@hotmail.com>
 License: Apache 2.0 License
