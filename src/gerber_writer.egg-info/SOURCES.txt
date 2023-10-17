@@ -1,0 +1,14 @@
+README.rst
+pyproject.toml
+src/gerber_writer/__init__.py
+src/gerber_writer/lutils.py
+src/gerber_writer/macros.py
+src/gerber_writer/padmasters.py
+src/gerber_writer/writer.py
+src/gerber_writer/writer_test.py
+src/gerber_writer.egg-info/PKG-INFO
+src/gerber_writer.egg-info/SOURCES.txt
+src/gerber_writer.egg-info/dependency_links.txt
+src/gerber_writer.egg-info/top_level.txt
+tests/test_arcs.py
+tests/test_contours.py

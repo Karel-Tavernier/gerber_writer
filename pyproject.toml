@@ -2,8 +2,8 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 [project]
-name = "pius"
-version = "0.1.8"
+name = "gerber_writer"
+version = "0.4.2.7"
 authors = [
   { name="Karel Tavernier", email="karel_tavernier@hotmail.com" },
 ]

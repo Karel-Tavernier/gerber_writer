@@ -1,4 +1,4 @@
-"""Perform doctest on modules from the pius package"""
+"""Perform doctest on modules from the gerber_writer package"""
 import doctest
-doctest.testfile('../src/pius/writer.py')
-doctest.testfile('../src/pius/padmasters.py')
+doctest.testfile('../src/gerber_writer/writer.py')
+doctest.testfile('../src/gerber_writer/padmasters.py')

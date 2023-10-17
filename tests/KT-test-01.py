@@ -1,5 +1,5 @@
-from src import pius
+from src import gerber_writer
 
-help(pius)
+help(gerber_writer)
 
 # image = DataLayer('Other,Test_overlaps')

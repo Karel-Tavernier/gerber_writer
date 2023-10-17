@@ -1,4 +1,4 @@
-# Example file for pius
+# Example file for gerber_writer
 # Generates a PCB profile
 # KT, 22-May-2022
 version = '0.3.1'

@@ -1,7 +1,7 @@
-"""Sample pius file"""
+"""Sample gerber_writer file"""
 # Copyright Karel Tavernier
 
-version = '0.1.4'  # pius version written in Gerber file
+version = '0.1.4'  # gerber_writer version written in Gerber file
 
 from gerber_writer import DataLayer
 from gerber_writer import (
