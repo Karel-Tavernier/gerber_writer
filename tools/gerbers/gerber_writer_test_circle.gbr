@@ -1,0 +1,56 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-09-21T18:22:51.959571*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX06Y06*%
+G75*
+G04 #@! TA.AperFunction,ViaPad*
+G04 #@! TAShape,Circle,0.1*
+%ADD10C,0.1*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ComponentPad*
+G04 #@! TAShape,Circle,0.5*
+%ADD11C,0.5*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,Circle,0.2*
+%ADD12C,0.2*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,Circle,0.2*
+%ADD13C,0.2*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,Circle,0.0*
+%ADD14C,0.0*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test_zero_size*
+G04 #@! TAShape,Circle,0*
+%ADD15C,0*%
+G04 #@! TD*
+%LPD*%
+D10*
+X-2000000Y0D03*
+D11*
+X-1000000Y0D03*
+D12*
+X0Y1000000D03*
+X0Y2000000D03*
+%LPC*%
+D13*
+X1000000Y1000000D03*
+%LPD*%
+D12*
+X0Y3000000D03*
+X0Y4000000D03*
+%LPC*%
+D13*
+X1000000Y2000000D03*
+X1000000Y3000000D03*
+D14*
+X2000000Y0D03*
+%LPD*%
+D15*
+X1000000Y1000000D03*
+M02*

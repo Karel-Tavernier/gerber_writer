@@ -1,0 +1,55 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.970628*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMUserPolygon_1*
+4,1,4,
+0,0,
+0.1,0.2,
+0.5,0.2,
+0.4,0,
+0,0,
+$1*
+%
+%AMUserPolygon_2*
+4,1,3,
+0,0,
+0.01,0.02,
+0.05,0.02,
+0,0,
+$1*
+%
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,UserPolygon,-10*
+%ADD10UserPolygon_1,-10*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,UserPolygon,0*
+%ADD11UserPolygon_1,0*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,Test*
+G04 #@! TAShape,UserPolygon,0*
+%ADD12UserPolygon_2,0*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,Test*
+G04 #@! TAShape,UserPolygon,180*
+%ADD13UserPolygon_2,180*%
+G04 #@! TD*
+%LPD*%
+D10*
+X1000000Y0D03*
+D11*
+X0Y0D03*
+%LPC*%
+D12*
+X1100000Y100000D03*
+%LPD*%
+D11*
+X0Y1000000D03*
+%LPC*%
+D13*
+X100000Y100000D03*
+M02*

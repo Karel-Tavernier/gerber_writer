@@ -1,0 +1,115 @@
+Todo list
+=========
+
+Publicity
+-	On Ucamco.
+-	Add to spec
+-	Kasper
+-	Invent an Ucamco open source application for CAD.With eC?  Something with coupons, or footprints.  Logo Generator; Include SVG in Gerber file; with push viewer. Convert drawing to Gerber. DXF.
+
+v0.4.1xxx
+- 	solve problem git in git; maybe abandon outer git...
+-	automate github
+- 	store doc in github? Need to store small image anyway,
+- 	Release with proper readme on 'real' PyPi
+
+Next
+-	Consolidate two readme?  Maybe accept to host doc on web.
+-	No doubt faster if we would generate Gerber list on the fly. XNC from Gerber.
+-	Attributes. Check validity with regex. Check pad atts depends on layer function
+-	Consider to have tuple bulk line add to Path.
+-	Flat arc -> draw
+-	Consider shapely geometric library
+-	XNC output.  NC is also gerbers.
+-   Example drill file
+-	Sanitize spaces away
+
+-	PEP8 again. No slavish consistency. lint?
+-	Check whether version is not better handled in Git than in __init__
+-	Padmasters subclass of a _PadMaster class. Maybe refactor when the function checker is implemented.
+-	Consider _Region _PathTraces as subclass of Path; not sure it brings anything.
+-	Consider as above but as dispatcher. Study cmd.py.
+-	Drawings for pad master classes.
+- 	Stencil shapes. especially D shape and home plate, Butterfly pad?
+-	replace lists with deque 
+-	unittest, cases where line/arc and path connect in and in current point, in different directions.
+-	Define reference point
+-	A method to define user shapes with arcs. Consider pos neg
+-	Invent UserShape with pos/neg to make holes.
+-	venv, maybe pyenv
+-	Consider in Gerber a table with pads, the reconsider Shape
+
+Longer term future
+
+
+
+- 	__all__  let package inherit from writer module
+- __slots__ 
+-	Consider to convert unittest to pytest
+-	add_pad_via?
+-	I probably only need TD not at all, for now.
+-	Refactor TX to a function, to prepare for true X2
+-	Read Testdrive.io  Testing in Python
+-	lineto and add_trace_line are similar; uniformize somehow?
+-	Sanitize function to something with escapes
+-	Investigate __author__, ...  from .version ...
+-	Refactor macro and gerber_dump in separate module? Makes more sense than current split.
+-	Do static type checking.? Pyre?
+-	Consider to replace individual attributes by dict. At least for file atts. Needed when custom atts are invented. Best before JSON.
+-	PCB: Materials, some with images (files in Gerber) drills?
+-	Add repr(object) to unittest; provide full coverage
+- 	Make cheat sheet of file, aper funtions
+-	Application: prototype svg to gerber convertor; what is its use?  coupons?
+-	Check closed contours in the wrong place. Not everything worth doing is worth doing right.
+-	Improve rounded thermal rounding. Maybe. 
+-	Contruct with pos neg circles, triangle that can be rotated
+-		add polygon that is not a circle but does not bump out. 
+-		or full-out contour; one can be used 4 times. After implementing method that allows to use arcs in contours
+-		Simplest. Position circle tangent to outer - does not stick out-  and going through the inner corner; it sticks out internally, but that is masked out.
+-	Flashes or not optimal, shape and ad_body are calculated for each object. Use master as main key rather than shape, and only calculate when not already done.
+-	Add traces with polyline
+
+-	Reading back own files and an == method would allow hypothesis testing.
+-	Split Path_Traces into individual objects on input; maybe
+-   Command X2
+-	? Add user comment
+-	? Add user attribute?
+-	? Mirror
+-	Make shape a standard attribute. This means documenting it in the spec.
+-	Reach out to Python PCB developers, if any?	
+-	Multilayer version
+-	Invent a method to add custom macro's; the current one only allows one area.Maybe.
+-	dataclass has an option for a manual __init__.  Beneficial?
+- 	Implement object attributes .N
+-	Make more robust, check for legal values, dadada
+-   Review other list methods to update. Block, adapt.
+- 	Use asserts liberally
+-	Check self-intersects
+-	Create cut-ins
+-	? Invent a way to combine standard pads pos/neg. This would need a combined macro, but is probably feasible.
+- 	Generalized rounded/chamfered rectangles, or even polygons.
+-	Handle multiple layers
+-	What about a block? This is not simply a graphics object, but a named substream
+-	Implement SR
+-	Implement AB
+
+Maybe
+-	Read own Gerber. This would be a powerful check. Is it worth the effort?
+-	Link to RGV directly
+-	SVG output; add possibility to cut out window
+-	PNG?
+-	JPG?
+-	To PDF?  See above. May be quite difficult.
+-	To DXF	Why?
+-	To DPF? Only if we make an application.
+-	To ODB++, DPMX?  Disadvantage is that it promotes these formats.
+-	JSON out?  Useful for transfer between users of this library. Marginal at best. Maybe better read own Gerber.
+
+Study
+-	Debug with IDLE
+-   IDE (Charm)
+
+Other projects
+-	Extract useful data from X2\X3 files. The advantage is that such files are typically syntactically clean.
+- 	An application. D->X. The problem is parsing.  But KiCad Gerber is easy to parse. Or XNC.
+- 	CLI to create Gerber files. But why? Who needs this?

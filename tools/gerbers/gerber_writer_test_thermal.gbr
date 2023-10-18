@@ -1,0 +1,36 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.969450*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMThermal*
+0 Circular thermal with straight corners*
+0 $1 outer diameter*
+0 $2 inner diameter*
+0 $3 gap
+0 $4 rotation angle*
+7,0,0,$1,$2,$3,$4*
+%
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,Thermal,0.5,0.4,0.1,0*
+%ADD10Thermal,0.5X0.4X0.1X0*%
+G04 #@! TD*
+G04 #@! TAShape,Thermal,0.8,0.6,0.15,-22.5*
+%ADD11Thermal,0.8X0.6X0.15X-22.5*%
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,Thermal,0.5,0.4,0.1,45*
+%ADD12Thermal,0.5X0.4X0.1X45*%
+G04 #@! TD*
+%LPC*%
+D10*
+X0Y0D03*
+X0Y1000000D03*
+%LPD*%
+D11*
+X1200000Y1000000D03*
+%LPC*%
+D12*
+X1000000Y0D03*
+M02*

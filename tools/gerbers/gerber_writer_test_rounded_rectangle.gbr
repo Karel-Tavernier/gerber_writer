@@ -1,0 +1,74 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.968691*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMRoundedRectangle*
+0 Rectangle with rounded corners*
+0 Uses primitive 1 and 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 xsize/2-radius*
+0 $4 size/2-radius*
+0 $5 rotation angle*
+0 $6 diameter*
+0 $7 x of center of first quadrant circle*
+0 $8 y of center of first quadrant circle*
+0 $9 x of center of 2nd quadrant circle*
+0 $10 y of center of 2nd quadrant circle*
+4,1,8,
+$3,$2,
+$1,$4,
+$1,-$4,
+$3,-$2,
+-$3,-$2,
+-$1,-$4,
+-$1,$4,
+-$3,$2,
+$3,$2,
+$5*
+1,1,$6,$7,$8*
+1,1,$6,-$7,-$8*
+1,1,$6,$9,$10*
+1,1,$6,-$9,-$10*
+%
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,RoundedRectangle,0.6,0.2,0.05,22.5*
+%ADD10RoundedRectangle,0.3X0.1X0.25X0.05X22.5X0.1X0.211836X0.141865X-0.250104X-0.049477*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,RoundedRectangle,0.6,0.2,0.05,0*
+%ADD11RoundedRectangle,0.3X0.1X0.25X0.05X0X0.1X0.25X0.05X-0.25X0.05*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,RoundedRectangle,0.45,0.2,0.0999999,0*
+%ADD12O,0.45X0.2*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,RoundedRectangle,0.45,0.2,0.1,45*
+%ADD13RoundedRectangle,0.225X0.1X0.125X0.0X45X0.2X0.088388X0.088388X-0.088388X-0.088388*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,Test_zero_radius*
+G04 #@! TAShape,RoundedRectangle,0.5,0.25,0,0*
+%ADD14RoundedRectangle,0.25X0.125X0.25X0.125X0X0X0.25X0.125X-0.25X0.125*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,Test_zero_radius*
+G04 #@! TAShape,RoundedRectangle,0.5,0.25,0,30*
+%ADD15RoundedRectangle,0.25X0.125X0.25X0.125X30X0X0.154006X0.233253X-0.279006X-0.016747*%
+G04 #@! TD*
+%LPD*%
+D10*
+X0Y3000000D03*
+D11*
+X-1000000Y-2500000D03*
+D12*
+X1000000Y-2000000D03*
+D13*
+X1000000Y-3000000D03*
+D14*
+X1000000Y1000000D03*
+D15*
+X1000000Y2000000D03*
+M02*

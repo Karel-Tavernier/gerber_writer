@@ -1,0 +1,70 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.969906*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMRoundedThermal*
+0 Circular thermal with rounded corners*
+0 $1 outer diameter*
+0 $2 inner diameter*
+0 $3 gap of straight thermal primitive*
+0 $4 rotation angle*
+0 $5 diameter rounding circles*
+0 $6 x coordinate of q1 along h axis circle, rotated*
+0 $7 y coordinate of q1 along h axis circle, rotated*
+0 $8 x coordinate of q1 along v axis circle, rotated*
+0 $9 y coordinate of q1 along v axis circle, rotated*
+7,0,0,$1,$2,$3,$4*
+1,1,$5,$6,$7*
+1,1,$5,-$7,$6*
+1,1,$5,-$6,-$7*
+1,1,$5,$7,-$6*
+1,1,$5,$8,$9*
+1,1,$5,-$9,$8*
+1,1,$5,-$8,-$9*
+1,1,$5,$9,-$8*
+1,0,$2,0,0*
+%
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,RoundedThermal,1,0.8,0.1,0*
+%ADD10RoundedThermal,1X0.8X0.230952X0X0.10639X0.434726X0.10319X0.10319X0.434726*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,RoundedThermal,1,0.8,0.1,-22.5*
+%ADD11RoundedThermal,1X0.8X0.230952X-22.5X0.10639X0.441124X-0.071027X0.261698X0.362145*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,RoundedThermal,1,0.8,0.1,45*
+%ADD12RoundedThermal,1X0.8X0.230952X45X0.10639X0.234431X0.380364X-0.234431X0.380364*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,interior rounding*
+G04 #@! TAShape,RoundedThermal,1.1,0.9,0.2949,0*
+%ADD13RoundedThermal,1.1X0.9X0.475884X0X0.126356X0.438907X0.21061X0.21061X0.438907*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,symmetric rounding just*
+G04 #@! TAShape,RoundedThermal,1.1,0.9,0.3,0*
+%ADD14RoundedThermal,1.1X0.9X0.409732X0X0.109759X0.455542X0.204866X0.204866X0.455542*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,symmetric rounding max*
+G04 #@! TAShape,RoundedThermal,1.1,0.9,0.5071,0*
+%ADD15RoundedThermal,1.1X0.9X0.637688X0X0.130599X0.38285X0.318844X0.318844X0.38285*%
+G04 #@! TD*
+%LPC*%
+D10*
+X0Y0D03*
+D11*
+X0Y1500000D03*
+D12*
+X0Y3000000D03*
+D10*
+X0Y4500000D03*
+%LPD*%
+D13*
+X1500000Y0D03*
+D14*
+X1500000Y1500000D03*
+D15*
+X1500000Y3000000D03*
+M02*

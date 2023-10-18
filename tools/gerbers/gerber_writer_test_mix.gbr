@@ -1,0 +1,109 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.972350*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+G04 #@! TF.GenerationSoftware,Karel_Tavernier,gerber_writer_unittest,1.0*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMChamferedRectangle*
+0 Rectangle with chamfered corners*
+0 Uses primitive 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 xsize/2-cutoff*
+0 $y size/2-cutoff*
+0 $5 rotation angle*
+4,1,8,
+$3,$2,
+$1,$4,
+$1,-$4,
+$3,-$2,
+-$3,-$2,
+-$1,-$4,
+-$1,$4,
+-$3,$2,
+$3,$2,
+$5*
+%
+%AMRectangle*
+0 Rectangle with straight corners*
+0 Uses primitive 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 rotation angle*
+4,1,4,
+$1,$2,
+$1,-$2,
+-$1,-$2,
+-$1,$2,
+$1,$2,
+$3*
+%
+%AMThermal*
+0 Circular thermal with straight corners*
+0 $1 outer diameter*
+0 $2 inner diameter*
+0 $3 gap
+0 $4 rotation angle*
+7,0,0,$1,$2,$3,$4*
+%
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,ChamferedRectangle,0.5,0.25,0.05,22.5*
+%ADD10ChamferedRectangle,0.25X0.125X0.2X0.075X22.5*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Other,test*
+G04 #@! TAShape,Rectangle,1.1,0.2,-25*
+%ADD11Rectangle,0.55X0.1X-25*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Conductor*
+G04 #@! TAShape,Circle,0.2*
+%ADD12C,0.2*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Conductor*
+G04 #@! TAShape,Circle,0.04*
+%ADD13C,0.04*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,ThermalReliefPad*
+G04 #@! TAShape,Thermal,0.5,0.4,0.125,45*
+%ADD14Thermal,0.5X0.4X0.125X45*%
+G04 #@! TD*
+%LPD*%
+D10*
+X1125000Y0D03*
+%LPC*%
+D11*
+X0Y2000000D03*
+%LPD*%
+D12*
+X-2000000Y-2000000D02*
+G01*
+X-1000000Y-2000000D01*
+X-500000Y-1500000D01*
+X-2000000Y2000000D02*
+G03*
+X-2000000Y-2000000I500000J-2000000D01*
+D13*
+X-1500000Y1500000D02*
+G02*
+X-1000000Y1000000I500000J0D01*
+G04 #@! TA.AperFunction,Other,test*
+G36*
+X0Y0D02*
+G01*
+X1000000Y0D01*
+G03*
+X1000000Y1000000I0J500000D01*
+G01*
+X0Y1000000D01*
+X0Y0D01*
+X3000000Y0D02*
+X4000000Y0D01*
+X3000000Y1000000D01*
+X3000000Y0D01*
+G37*
+G04 #@! TD*
+%LPC*%
+D14*
+X1500000Y1500000D03*
+M02*

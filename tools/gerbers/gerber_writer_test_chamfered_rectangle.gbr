@@ -1,0 +1,59 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.969147*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMChamferedRectangle*
+0 Rectangle with chamfered corners*
+0 Uses primitive 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 xsize/2-cutoff*
+0 $y size/2-cutoff*
+0 $5 rotation angle*
+4,1,8,
+$3,$2,
+$1,$4,
+$1,-$4,
+$3,-$2,
+-$3,-$2,
+-$1,-$4,
+-$1,$4,
+-$3,$2,
+$3,$2,
+$5*
+%
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,ChamferedRectangle,0.6,0.2,0.05,22.5*
+%ADD10ChamferedRectangle,0.3X0.1X0.25X0.05X22.5*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,ChamferedRectangle,0.6,0.2,0.05,0*
+%ADD11ChamferedRectangle,0.3X0.1X0.25X0.05X0*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,ChamferedRectangle,0.45,0.22,0.06,45*
+%ADD12ChamferedRectangle,0.225X0.11X0.165X0.05X45*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Test,zero_cutoff*
+G04 #@! TAShape,ChamferedRectangle,0.5,0.25,0,0*
+%ADD13ChamferedRectangle,0.25X0.125X0.25X0.125X0*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,Test,zero_cutoff*
+G04 #@! TAShape,ChamferedRectangle,0.5,0.25,0,35*
+%ADD14ChamferedRectangle,0.25X0.125X0.25X0.125X35*%
+G04 #@! TD*
+%LPD*%
+D10*
+X0Y3000000D03*
+D11*
+X3000000Y0D03*
+D12*
+X0Y1000000D03*
+D13*
+X-1000000Y0D03*
+D14*
+X-1000000Y1000000D03*
+M02*

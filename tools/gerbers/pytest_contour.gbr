@@ -1,0 +1,8 @@
+G04 Created with the python gerber_writer 0.3.5*
+G04 #@! TF.CreationDate,2022-08-12T19:07:37.101079*
+G04 #@! TF.FileFunction,Other,Test contour validity*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+M02*

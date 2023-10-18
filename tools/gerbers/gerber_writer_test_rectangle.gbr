@@ -1,0 +1,43 @@
+G04 Created with the python gerber_writer 0.4.1.2*
+G04 #@! TF.CreationDate,2023-07-19T20:33:05.968238*
+G04 #@! TF.FileFunction,Other,Test*
+G04 #@! TF.FilePolarity,Positive*
+%MOMM*%
+%FSLAX36Y36*%
+G75*
+%AMRectangle*
+0 Rectangle with straight corners*
+0 Uses primitive 4 only, without calculations*
+0 $1 xsize/2*
+0 $2 ysize/2*
+0 $3 rotation angle*
+4,1,4,
+$1,$2,
+$1,-$2,
+-$1,-$2,
+-$1,$2,
+$1,$2,
+$3*
+%
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,Rectangle,0.5,0.25,0*
+%ADD10R,0.5X0.25*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,Rectangle,0.5,0.25,45*
+%ADD11Rectangle,0.25X0.125X45*%
+G04 #@! TD*
+G04 #@! TA.AperFunction,SMDPad,CuDef*
+G04 #@! TAShape,Rectangle,0.5,0.25,180*
+%ADD12R,0.5X0.25*%
+G04 #@! TD*
+%LPD*%
+D10*
+X500000Y0D03*
+X500000Y0D03*
+X1000000Y0D03*
+D11*
+X0Y-500000D03*
+D12*
+X1000000Y1000000D03*
+M02*
