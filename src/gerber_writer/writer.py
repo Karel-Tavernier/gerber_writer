@@ -450,9 +450,9 @@ class Path:
         self.start_point = None
         self.contour = False
 # adf 230915
-        self.pointMax = (0, 0)
+        self.pointMax = (1, 1)
 
-    def __len__(self) ->int:
+    def __len__(self) -> int:
         """Return number of construction operators."""
         return len(self.operators)
         
@@ -593,7 +593,7 @@ class DataLayer:
         self.negative = negative
         self.g_o_stream: List = list()
 # adf
-        self.pointMax = (0,0)
+        self.pointMax = (1, 1)
         self.integerdigits = (0,0)
 
     def __repr__(self):
