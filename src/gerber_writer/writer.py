@@ -807,7 +807,6 @@ class DataLayer:
 # adf
         self.pointMax = _pnt_max(path.pointMax, self.pointMax)
         report_with_line(f'(x_max, y_max):   {path.pointMax}' )
-        # self.integerdigits = (max(int(math.log(path.pointMax[0], 10)), 3), max(int(math.log(path.pointMax[1], 10)), 3))
 
     def dumps_gerber(self) -> str:
         '''Return a string in Gerber format representing the DataLayer.'''
@@ -1208,8 +1207,8 @@ class DataLayer:
                 )
         all_commands.append('%MOMM*%')
 # adf 230918
-        self.integerdigits = (max(int(math.log(self.pointMax[0], 10)), 3), max(int(math.log(self.pointMax[1], 10)), 3))
-        report_with_line(f'(x_interdigits, y_interdigits) = {self.integerdigits}')
+        self.integerdigits = (max(1 + int(math.log10(self.pointMax[0])), 3), max(1 + int(math.log10(self.pointMax[1])), 3))
+        report_with_line(f'(x_integerdigits, y_integerdigits) = {self.integerdigits}')
 
 # adf
         # all_commands.append('%FSLAX36Y36*%')
