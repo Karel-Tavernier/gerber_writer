@@ -7,6 +7,7 @@ from random import uniform
 from time import time
 
 from gerber_writer import (DataLayer, Circle)
+# from src.gerber_writer.writer import (DataLayer, Circle)
 
 
 RANGE = 1_000

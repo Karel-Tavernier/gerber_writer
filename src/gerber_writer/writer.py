@@ -1224,7 +1224,10 @@ class DataLayer:
         all_commands.extend(body_commands)
         # End of file
         all_commands.append('M02*')
-        
+
+# karel wil dit niet wheee
+        # print(f'\nthe size of this gerber is {self.pointMax[0]:.3f} X {self.pointMax[1]:.3f}')
+
         return '\n'.join(all_commands)
 
     def dump_gerber(self, gerber_file):
