@@ -2,6 +2,9 @@
 build/
 __pycache__
 
+# Developer only
+tools/
+
 # Distribution / packaging 
 .Python build/ 
 dist/ 

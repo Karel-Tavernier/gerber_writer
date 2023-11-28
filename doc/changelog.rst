@@ -10,7 +10,7 @@ Version 0.4.1.2
 Version 0.4.1
 -------------
 
-- Protect against the instability of small arcs with short chords
+- Protect against the instability of very small arcs
 - Raise exception on invalid arcs (radii to start and end point are too unequal)
 - Raise exception when adding contours that are not closed
 

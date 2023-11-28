@@ -1,0 +1,2 @@
+usage: sphinx-build [OPTIONS] SOURCEDIR OUTPUTDIR [FILENAMES...]
+sphinx-build: error: the following arguments are required: sourcedir, outputdir, filenames
