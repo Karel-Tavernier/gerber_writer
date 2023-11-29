@@ -1,3 +1,0 @@
-- Protect against instability of small arcs with short chords
-- Raise exception on arcs with too large deviation
-- Raise exception when adding contours that are not closed
