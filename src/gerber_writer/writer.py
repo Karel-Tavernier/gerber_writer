@@ -107,7 +107,7 @@ Methods
 Exceptions
 ----------
 
-TypeError and ValueError exceptions are thrown on inbalid inputs.
+TypeError and ValueError exceptions are thrown on invalid inputs.
 
 Examples
 ========
@@ -268,6 +268,11 @@ from math import sqrt, sin, cos, acos, radians
 from typing import NamedTuple, Set, Dict, List, Tuple, Deque
 import types
 
+# adf  #todo check if import math is needed
+import math
+from .lutils import report_with_line
+# import inspect    # for debug reporting
+
 from .__init__ import __version__
 from .padmasters import (
     Circle,
@@ -288,6 +293,12 @@ _generation_software = types.SimpleNamespace(vendor='', application='', version=
 
 Point = Tuple[float, float]
 """Point in 2D image plane."""
+
+# adf
+def _pnt_max(a: Point , b: Point ) -> Point :
+    """return maxima of the elements per index and return them as a point   """
+    return (max(abs(a[0]), abs(b[0])), max(abs(a[1]), abs(b[1])))
+# end adf
 
 def _pnt_offset(a: Point, b: Point) -> Point:
     """ Return a tuple with offset or a - b"""
@@ -421,7 +432,7 @@ class Path:
     :example:
     
     >>> # Define a region with one contour.
-    >>> from gerber_writer import Path    
+    >>> from gerber_writer import Path
     >>> d_shape = Path()
     >>> d_shape.moveto((0, 0))
     >>> d_shape.lineto((1, 0))
@@ -438,8 +449,10 @@ class Path:
         self.current_point = None
         self.start_point = None
         self.contour = False
-        
-    def __len__(self) ->int:
+# adf 230915
+        self.pointMax = (1, 1)
+
+    def __len__(self) -> int:
         """Return number of construction operators."""
         return len(self.operators)
         
@@ -457,6 +470,8 @@ class Path:
         self.current_point = to
         self.start_point = to
         self.contour = False
+# adf
+        self.pointMax = _pnt_max(to, self.pointMax)
     
     def lineto(self, end: Point):
         """Construction operator. Add straight line segment from current point to end point to the current subpath.
@@ -472,14 +487,16 @@ class Path:
             self.contour = True
         else:
             self.contour = False
-         
+# adf
+        self.pointMax = _pnt_max(end, self.pointMax)
+
     def arcto(self, end: Point, center: Point, orientation: str):
         """Construction operator. Add circular arc segment from current point to end point to the current subpath.
         
         :param Point end: end point of added segment   
         :param Point center: center point of arc        
         :param str orientation: arc orientation, either '+' or '-'          
-        """        
+        """
         if not isinstance(end, tuple):
             raise TypeError('end must be a tuple of two floats')
         if not isinstance(center, tuple):
@@ -492,7 +509,14 @@ class Path:
             raise ValueError(f'radii to begin and end points differ by more than {MAX_DEVIATION}')
         self.operators.append(_ArcTo(end, center, orientation))
         self.current_point = end
-        
+# adf 230913
+        if end == self.start_point:
+            self.contour = True
+        else:
+            self.contour = False
+# adf
+        self.pointMax = _pnt_max(end, self.pointMax)
+
 class DataLayer:
     """Accumulate the graphics objects of a PCB layer, when complete output it as Gerber file.
     
@@ -515,7 +539,7 @@ class DataLayer:
     **DataLayer Methods Reference:**
 
     """
-    
+
     class _Pad(NamedTuple):
         """A pad graphics object.
         
@@ -530,7 +554,7 @@ class DataLayer:
         master: object
         position: Point
         angle: float
- 
+
     class _Region(NamedTuple):
         """Region graphics object.
         
@@ -568,7 +592,10 @@ class DataLayer:
         self.function = function
         self.negative = negative
         self.g_o_stream: List = list()
-        
+# adf
+        self.pointMax = (1, 1)
+        self.integerdigits = (0,0)
+
     def __repr__(self):
         """DataLayer attributes and list of graphics objects.
         
@@ -625,6 +652,11 @@ class DataLayer:
             raise TypeError('angle must be int or float')                        
         # to be expanded with real checks on function, probably using regex
         self.g_o_stream.append(DataLayer._Pad(master, position, angle))
+
+# adf
+        report_with_line(f'line has position {position} and datalayer has max {self.pointMax}')
+        self.pointMax = _pnt_max(position, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
     
     def add_trace_line(self, start: Point, end: Point, width: float, function: str, negative: bool=False):
         """Add straight line trace to DataLayer.
@@ -658,7 +690,11 @@ class DataLayer:
         line.moveto(start)
         line.lineto(end)      
         self.g_o_stream.append(DataLayer._TracesPath(line, width, function, negative))
-    
+# adf
+        report_with_line(f'line has max {line.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(line.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
+
     def add_trace_arc(self, start: Point, end: Point, center: Point, orientation: str, width: float, function: str, negative: bool=False):
         """Add circular arc trace to DataLayer.
         
@@ -693,7 +729,11 @@ class DataLayer:
         arc = Path()
         arc.moveto(start)
         arc.arcto(end, center, orientation)      
-        self.g_o_stream.append(DataLayer._TracesPath(arc, width, function, negative))            
+        self.g_o_stream.append(DataLayer._TracesPath(arc, width, function, negative))
+# adf
+        report_with_line(f'trace_arc has max {arc.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(arc.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
         
     def add_traces_path(self, path: Path, width: float, function: str, negative: bool=False):
         """Add traces by stroking a path.
@@ -705,7 +745,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from gerber_writer import DataLayer, Path    
+        >>> from gerber_writer import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> connection = Path()
         >>> connection.moveto((0, 0))
@@ -727,6 +767,10 @@ class DataLayer:
         if not isinstance(negative, bool):
             raise TypeError('negative flag is not bool')        
         self.g_o_stream.append(DataLayer._TracesPath(path, width, function, negative))
+# adf
+        report_with_line(f'line has max {path.pointMax} and datalayer has {self.pointMax}')
+        self.pointMax = _pnt_max(path.pointMax, self.pointMax)
+        report_with_line(f'new max is  {self.pointMax}')
         
     def add_region(self, path: Path, function: str, negative: bool=False):
         """Add a region graphics object to the DataLayer.
@@ -737,7 +781,7 @@ class DataLayer:
         
         :Example:
         
-        >>> from gerber_writer import DataLayer, Path    
+        >>> from gerber_writer import DataLayer, Path
         >>> copper_top = DataLayer('Copper,L1,Top')        
         >>> d_shape = Path()
         >>> d_shape.moveto((0, 0))
@@ -760,7 +804,10 @@ class DataLayer:
         if not isinstance(negative, bool): raise TypeError('negative flag is not bool')        
         if path.contour == False: raise ValueError('some subpaths are not closed')
         self.g_o_stream.append(DataLayer._Region(path, function, negative))
-       
+# adf
+        self.pointMax = _pnt_max(path.pointMax, self.pointMax)
+        report_with_line(f'(x_max, y_max):   {path.pointMax}' )
+
     def dumps_gerber(self) -> str:
         '''Return a string in Gerber format representing the DataLayer.'''
         
@@ -1159,7 +1206,15 @@ class DataLayer:
                 f'{_generation_software.version}*'
                 )
         all_commands.append('%MOMM*%')
-        all_commands.append('%FSLAX36Y36*%')
+# adf 230918
+        self.integerdigits = (max(1 + int(math.log10(self.pointMax[0])), 3), max(1 + int(math.log10(self.pointMax[1])), 3))
+        report_with_line(f'(x_integerdigits, y_integerdigits) = {self.integerdigits}')
+
+# adf
+        # all_commands.append('%FSLAX36Y36*%')
+        max_integerdigits = max(self.integerdigits[0], self.integerdigits[1])
+        all_commands.append(f'%FSLAX{max_integerdigits}6Y{max_integerdigits}6*%')
+# end adf
         all_commands.append('G75*')
         # Macro commands
         all_commands.extend(sorted(macros)) # sort to have a predicatable order for unittest
@@ -1169,7 +1224,10 @@ class DataLayer:
         all_commands.extend(body_commands)
         # End of file
         all_commands.append('M02*')
-        
+
+# karel wil dit niet wheee
+        # print(f'\nthe size of this gerber is {self.pointMax[0]:.3f} X {self.pointMax[1]:.3f}')
+
         return '\n'.join(all_commands)
 
     def dump_gerber(self, gerber_file):

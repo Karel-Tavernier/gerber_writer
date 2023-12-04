@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Change log of gerber_writer &mdash; gerber_writer 0.4.1.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -26,11 +29,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> gerber_writer
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gerber_writer
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="README.html">Readme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Tutorial and Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change log of gerber_writer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-4-2-15">Version 0.4.2.15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-4-2-11">Version 0.4.2.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-4-2-7">Version 0.4.2.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-4-1-3">Version 0.4.1.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-4-1-2">Version 0.4.1.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-4-1">Version 0.4.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-3-4">Version 0.3.4</a></li>
@@ -61,8 +72,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Change log of gerber_writer</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Change log of gerber_writer</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -74,6 +85,38 @@
              
   <section id="change-log-of-gerber-writer">
 <h1>Change log of gerber_writer<a class="headerlink" href="#change-log-of-gerber-writer" title="Permalink to this headline"></a></h1>
+<section id="version-0-4-2-15">
+<h2>Version 0.4.2.15<a class="headerlink" href="#version-0-4-2-15" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>sphinx documentation process updated for linux</p></li>
+<li><p>tools directory not under git control anymore, as it is considered private and for developer use</p></li>
+</ul>
+</section>
+<section id="version-0-4-2-11">
+<h2>Version 0.4.2.11<a class="headerlink" href="#version-0-4-2-11" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>bug solved: integerdigits returns 2 for pointMax= 500, 3 for pointMax=5000</p></li>
+</ul>
+</section>
+<section id="version-0-4-2-7">
+<h2>Version 0.4.2.7<a class="headerlink" href="#version-0-4-2-7" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>bug solved: when pointMax remains zero (because of empty files, no path instructions etc).</dt><dd><p>there will be a crash because math.log(pointMax[0]) fails.
+pointMax is now initialised with (1,1)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="version-0-4-1-3">
+<h2>Version 0.4.1.3<a class="headerlink" href="#version-0-4-1-3" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>corrected ‘no error when path ends with arc and is not closed’. added lutils.py for little utilities. added some pytest functionality.</p></li>
+<li><p>issue ‘max coordinates’ solved.</p></li>
+<li><p>for linux: PyPI-make-and-upload.sh allows upload to PyPI</p></li>
+</ul>
+</section>
 <section id="version-0-4-1-2">
 <h2>Version 0.4.1.2<a class="headerlink" href="#version-0-4-1-2" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -83,7 +126,7 @@
 <section id="version-0-4-1">
 <h2>Version 0.4.1<a class="headerlink" href="#version-0-4-1" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Protect against the instability of small arcs with short chords</p></li>
+<li><p>Protect against the instability of very small arcs</p></li>
 <li><p>Raise exception on invalid arcs (radii to start and end point are too unequal)</p></li>
 <li><p>Raise exception when adding contours that are not closed</p></li>
 </ul>

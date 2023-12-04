@@ -3,10 +3,9 @@
 version = '0.3.1'
 
 import hashlib
-import os
 import unittest
-from gerber_writer.writer import DataLayer
-from gerber_writer.writer import (
+from src.gerber_writer.writer import DataLayer
+from src.gerber_writer.writer import (
     Path, set_generation_software,
     Circle, Rectangle, RoundedRectangle, ChamferedRectangle,
     Thermal, RoundedThermal, RegularPolygon,  UserPolygon,
@@ -17,7 +16,8 @@ class TestDataLayer(unittest.TestCase):
     def test_DataLayer(self):
     
         output_gerbers = True # Useful during debugging to have the gerbers for inspection
-        folder = '../tools/gerbers/' # Root directory for gerbers
+        #adf r'...' linux & windows
+        folder = r'../../tools/gerbers/' # Root directory for gerbers
 
         def body_md5(layer):
             """Return a string with the md5 of the body of the gerber string of the layer"""
@@ -78,7 +78,7 @@ class TestDataLayer(unittest.TestCase):
         test_layer.add_pad(smd, (1, 0))
         test_layer.add_pad(smd, (0, -0.5), angle=45)
         test_layer.add_pad(smd, (1, 1) , angle=180)
-        
+
         if output_gerbers:
             with open(folder + 'gerber_writer_test_rectangle.gbr', 'w') as outfile:
                 test_layer.dump_gerber(outfile)        

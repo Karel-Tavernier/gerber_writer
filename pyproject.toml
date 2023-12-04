@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "gerber_writer"
+version = "0.4.2.17"
+authors = [
+  { name="Karel Tavernier", email="karel_tavernier@hotmail.com" },
+]
+description = "A library to write Gerber files"
+readme = "README.rst"
+license = { text ="Apache 2.0 License" }
+requires-python = ">=3.10"
+keywords = ["Gerber", "RS-274X", "PCB", "CAD", "CAM", "library"]
+dependencies = []
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+	"License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+	"Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+	"Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+	"Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/alaindef/gerber_writer_project"
+#"Homepage" = "https://github.com/Karel-Tavernier/gerber_writer"
+#"Documentation"= "https://karel-tavernier.github.io/gerber_writer/"
+"Documentation"= "https://alaindef.github.io/"
