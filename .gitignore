@@ -1,13 +1,14 @@
 **/*.pyc
-build/
 __pycache__
 
 # Developer only
+build/
+dist/ 
+docs/
 tools/
 
 # Distribution / packaging 
 .Python build/ 
-dist/ 
 downloads/ 
 lib/ 
 lib64/ 
