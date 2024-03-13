@@ -10,7 +10,7 @@ authors = [
 description = "A library to write Gerber files"
 readme = "README.rst"
 license = { text ="Apache 2.0 License" }
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 keywords = ["Gerber", "RS-274X", "PCB", "CAD", "CAM", "library"]
 dependencies = []
 
