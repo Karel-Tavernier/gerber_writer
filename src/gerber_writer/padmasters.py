@@ -25,6 +25,8 @@ Padmasters are used to create pads by replicating them
 
 from dataclasses import dataclass
 from math import sqrt
+from .lutils import isreal
+
 
 @dataclass(frozen = True)
 class Circle:
@@ -44,7 +46,7 @@ class Circle:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not isinstance(self.diameter, float|int):
+        if not isreal(self.diameter):
             raise TypeError('diameter must be int or float')
         if self.diameter <0 :
             raise ValueError('diameter must be >=0')
@@ -68,11 +70,11 @@ class Rectangle:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not isinstance(self.x_size, float|int):
+        if not isreal(self.x_size):
             raise TypeError('X size must be int or float')
         if self.x_size <= 0:
             raise ValueError('X size must be >=0')
-        if not isinstance(self.y_size, float|int):
+        if not isreal(self.y_size):
             raise TypeError('Y size must be int or float')
         if  self.y_size <= 0:
             raise ValueError('Y size must be >=0')
@@ -98,15 +100,15 @@ class RoundedRectangle:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not isinstance(self.x_size, float|int):
+        if not isreal(self.x_size):
             raise TypeError('x_size must be int or float')
         if self.x_size <= 0:
             raise ValueError('x_size must be >0')
-        if not isinstance(self.y_size, float|int):
+        if not isreal(self.y_size):
             raise TypeError('y_size must be int or float')
         if  self.y_size <= 0:
             raise ValueError('y_size must be >0')
-        if not isinstance(self.radius, float|int):
+        if not isreal(self.radius):
             raise TypeError('radius must be int or float')
         if not (0 <= self.radius <= 0.5*min(self.x_size, self.y_size)):
             raise ValueError('radius must be: 0 <= radius <= half the smallest side')            
@@ -132,15 +134,15 @@ class ChamferedRectangle:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not isinstance(self.x_size, float|int):
+        if not isreal(self.x_size):
             raise TypeError('X size must be int or float')
         if self.x_size <= 0:
             raise ValueError('X size must be >=0')
-        if not isinstance(self.y_size, float|int):
+        if not isreal(self.y_size):
             raise TypeError('Y size must be int or float')
         if  self.y_size <= 0:
             raise ValueError('Y size must be >=0')
-        if not isinstance(self.cutoff, float|int):
+        if not isreal(self.cutoff):
             raise TypeError('Cutoff must be int or float')
         if not (0 <= self.cutoff <= 0.5*min(self.x_size, self.y_size)):
             raise ValueError('Cutoff must be: 0 <= cutoff <= half the smallest side')            
@@ -164,7 +166,7 @@ class Thermal:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not (isinstance(self.outer_diameter, int|float) and isinstance(self.inner_diameter, int|float) and isinstance(self.gap, int|float)):
+        if not (isreal(self.outer_diameter) and isreal(self.inner_diameter) and isreal(self.gap)):
             raise TypeError('arguments must be int or float')
         if not (0 < self.inner_diameter < self.outer_diameter):
             raise ValueError('diameter values invalid')
@@ -188,7 +190,7 @@ class RoundedThermal:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not (isinstance(self.outer_diameter, int|float) and isinstance(self.inner_diameter, int|float) and isinstance(self.gap, int|float)):
+        if not (isreal(self.outer_diameter) and isreal(self.inner_diameter) and isreal(self.gap)):
             raise TypeError('arguments must be int or float')
         if not (self.outer_diameter>0 and self.inner_diameter>0 and self.gap>0):
             raise ValueError('parameters must be strictly positive')
@@ -213,7 +215,7 @@ class RegularPolygon:
     function: str
     negative: bool = False
     def __post_init__(self):
-        if not isinstance(self.outer_diameter, float|int):
+        if not isreal(self.outer_diameter):
             raise TypeError('outer_diameter must be int or float')
         if self.outer_diameter <= 0:
             raise ValueError('outer_diameter must be >=0')
