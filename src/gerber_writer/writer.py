@@ -1,6 +1,6 @@
 """
 
-.. module:: gerber_writer
+.. module:: gerber_wrier
    :synopsis: A simple API for writing Gerber files
 .. moduleauthor:: Karel Tavernier <karel_tavernier@hotmail.com>
 
@@ -270,7 +270,7 @@ import types
 
 # adf  #todo check if import math is needed
 import math
-from .lutils import report_with_line, isreal
+from .lutils import report_with_line
 # import inspect    # for debug reporting
 
 from .__init__ import __version__
@@ -648,7 +648,7 @@ class DataLayer:
             raise ValueError('function must be string')        
         if not isinstance(position, tuple):
             raise ValueError('position must be a tuple of two float coordinates')
-        if not isreal(angle):
+        if not isinstance(angle, float|int):
             raise TypeError('angle must be int or float')                        
         # to be expanded with real checks on function, probably using regex
         self.g_o_stream.append(DataLayer._Pad(master, position, angle))
@@ -681,7 +681,7 @@ class DataLayer:
             raise TypeError('function is not a str')
         if not isinstance(negative, bool):
             raise TypeError('negative is not bool')     
-        if not isreal(width):
+        if not isinstance(width, float|int): 
             raise TypeError('Width is not int or float')
         if width<0:
             raise ValueError('width is not >= 0')
@@ -722,7 +722,7 @@ class DataLayer:
             raise TypeError('function is not str')
         if not isinstance(negative, bool):
             raise TypeError('negative is not bool')     
-        if not isreal(width):
+        if not isinstance(width, float|int): 
             raise TypeError('Width is not int or float')
         if width<0:
             raise ValueError('width is not >= 0')
@@ -758,7 +758,7 @@ class DataLayer:
         """        
         if not isinstance(path, Path):
             raise TypeError('path is not a Path instance')
-        if not isreal(width):
+        if not isinstance(width, float|int): 
             raise TypeError('width is not int or float')
         if width<0:
             raise ValueError('width is not >= 0')
@@ -922,7 +922,9 @@ class DataLayer:
                                     d02 is mandatory at the start of a contour
             """
             for operator in path.operators:
-                if isinstance(operator, _MoveTo):
+                match operator:
+                
+                    case _MoveTo():
                         if always_d02:
                             body_commands.append(
                                 f'X{_pnt_gerber(operator.to)[0]}'
@@ -932,7 +934,7 @@ class DataLayer:
                         else:
                             handle_d02(operator.to)
                         
-                elif isinstance(operator, _LineTo):            
+                    case _LineTo():            
                         handle_g0n('G01*')
                         body_commands.append(
                             f'X{_pnt_gerber(operator.to)[0]}'
@@ -940,12 +942,13 @@ class DataLayer:
                             f'D01*'
                             )
                             
-                elif isinstance(operator, _ArcTo):
-                        if operator.orientation == '+':
-                                handle_g0n('G03*')
-                        elif operator.orientation == '-':
+                    case _ArcTo():
+                        match operator.orientation:
+                            case '+':
+                                handle_g0n('G03*')                                        
+                            case '-':
                                 handle_g0n('G02*')
-                        else:
+                            case _:
                                 assert False, 'Orientation must be "+" or "-" '
                         chord_short = _pnt_linf(graphics_state.point, operator.to) < TOLERANCE/2
                         arc_small = _pnt_orientation(operator.center, graphics_state.point, operator.to) == operator.orientation
@@ -967,7 +970,7 @@ class DataLayer:
                                 f'D01*'
                                 )
                             
-                else:
+                    case _:
                         assert False, 'Unknown path construction operator'
 
                 graphics_state.point = operator.to
@@ -975,12 +978,13 @@ class DataLayer:
         # Process graphics objects:
         # compute macro and aperture dicts, AD and operation command list        
         for graphics_object in self.g_o_stream:        
-            # match graphics_object:
-            if isinstance(graphics_object, DataLayer._TracesPath):
+            match graphics_object:
+            
+                case DataLayer._TracesPath():
                     handle_trace_lp_ad_dnn()
                     handle_path_operators(graphics_object.path, always_d02=False)            
             
-            elif isinstance(graphics_object, DataLayer._Region):
+                case DataLayer._Region():
                     handle_lp(graphics_object.negative)
                     if graphics_object.function != '':                        
                         body_commands.append(f'G04 #@! TA.AperFunction,{graphics_object.function}*')                
@@ -990,12 +994,12 @@ class DataLayer:
                     if graphics_object.function != '':                            
                         body_commands.append('G04 #@! TD*')
             
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, Circle):
+                case DataLayer._Pad() if isinstance(graphics_object.master, Circle):
                     shape = f'Circle,{graphics_object.master.diameter}'
                     ad_body = f'C,{graphics_object.master.diameter}'
                     handle_flash(shape, ad_body)
 
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, Rectangle):
+                case DataLayer._Pad() if isinstance(graphics_object.master, Rectangle):
                     shape = (
                         f'Rectangle,'
                         f'{graphics_object.master.x_size},'
@@ -1018,7 +1022,7 @@ class DataLayer:
                             )                                    
                     handle_flash(shape, ad_body)             
 
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, RoundedRectangle):
+                case DataLayer._Pad() if isinstance(graphics_object.master, RoundedRectangle):                        
                     x_size = graphics_object.master.x_size
                     y_size = graphics_object.master.y_size                            
                     radius = graphics_object.master.radius
@@ -1048,7 +1052,7 @@ class DataLayer:
                             )
                     handle_flash(shape, ad_body)                  
 
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, ChamferedRectangle):
+                case DataLayer._Pad() if isinstance(graphics_object.master, ChamferedRectangle):
                     shape = (
                         f'ChamferedRectangle,'
                         f'{graphics_object.master.x_size},'
@@ -1067,7 +1071,7 @@ class DataLayer:
                         )
                     handle_flash(shape, ad_body)
                                                                      
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, Thermal):
+                case DataLayer._Pad() if isinstance(graphics_object.master, Thermal):            
                     shape = (
                         f'Thermal,'
                         f'{graphics_object.master.outer_diameter},'
@@ -1085,7 +1089,7 @@ class DataLayer:
                         )
                     handle_flash(shape, ad_body)
                         
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, RoundedThermal):
+                case DataLayer._Pad() if isinstance(graphics_object.master, RoundedThermal):
                     shape = (
                         f'RoundedThermal,'
                         f'{graphics_object.master.outer_diameter},'
@@ -1147,7 +1151,7 @@ class DataLayer:
                         )
                     handle_flash(shape, ad_body)
                     
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, RegularPolygon):
+                case DataLayer._Pad() if isinstance(graphics_object.master, RegularPolygon):
                     shape = (
                         f'RegularPolygon,'
                     f'{graphics_object.master.outer_diameter},'
@@ -1162,7 +1166,7 @@ class DataLayer:
                         )
                     handle_flash(shape, ad_body)                            
                     
-            elif isinstance(graphics_object, DataLayer._Pad) and isinstance(graphics_object.master, UserPolygon):
+                case DataLayer._Pad() if isinstance(graphics_object.master, UserPolygon):
                     macro_name = polygons.get(graphics_object.master.polygon)
                     if macro_name is None: # polygon does not yet exist
                         # add polygon to polygons dict         
@@ -1180,8 +1184,8 @@ class DataLayer:
                     ad_body = f'{macro_name},{graphics_object.angle}'
                     handle_flash(shape, ad_body)
                         
-            else:
-                assert False, 'Unknown graphics object'
+                case _:
+                    assert False, 'Unknown graphics object'
 
         # Construct list of all commands
         # Header

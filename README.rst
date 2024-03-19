@@ -45,7 +45,7 @@ Example:
 Installation
 ------------
 
-This package requires Python 3.9 or later, you can find it `here <https://www.python.org/downloads/>`_.
+This package requires Python 3.10 or later, you can find it `here <https://www.python.org/downloads/>`_.
 
 +++++++
 Windows
@@ -66,7 +66,7 @@ Linux
 Requirements
 ------------
 
-* Python 3.9 or higher
+* Python 3.10 or higher
 * Standard library only.
 * OS independent.
 

@@ -5,7 +5,6 @@ version = '0.3.4'
 import hashlib
 # import os
 import pytest
-import pathlib
 
 from src.gerber_writer.writer import _pnt_orientation
 # from writer import _pnt_orientation
@@ -19,12 +18,8 @@ def body_md5(layer):
 
 
 output_gerbers = True  # Useful during debugging to have the gerbers for inspection
-if output_gerbers:
-    # Root directory for gerbers:
-    folder = pathlib.Path(__file__).absolute().parent.parent / 'tools' / 'gerbers'
-    if not folder.exists():
-        folder.mkdir(parents=True)
-    assert folder.is_dir()
+folder = '/home/alaindef/projects/pycharm-projects-py3/gerber_writer/tools/gerbers/'  # Root directory for gerbers
+
 
 # folder = '../examples/gerbers/' # Root directory for gerbers
 # folder = '../tools/gerbers/' # Root directory for gerbers
@@ -53,8 +48,8 @@ def test_short_chords():
     test_layer.add_trace_arc((-1, 1.5), (-1 + 2 * short, 1.5), (-1 + short, 1.5 + 10), '+', 0.04, 'Conductor')
     test_layer.add_trace_arc((0, 1.5), (0 + 2 * short, 1.5), (0 + short, 1.5 + 3 * short), '+', 0.04, 'Conductor')
     if output_gerbers:
-        with open(folder / 'pytest_arc.gbr', 'w') as outfile:
-            # with open(folder / 'pytest_arc.gbr', 'w') as outfile:
+        with open(folder + 'pytest_arc.gbr', 'w') as outfile:
+            # with open(folder + 'pytest_arc.gbr', 'w') as outfile:
             test_layer.dump_gerber(outfile)
     assert body_md5(test_layer) == '538b42907bf992772344c83d43b316d5'
 
