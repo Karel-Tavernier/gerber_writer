@@ -6,15 +6,15 @@ Purpose
 
 A Python library for writing Gerber files. 
 
+* The API is much simpler than the Gerber format specification - 8 pages vs 200.
 * No need to read the 200 page Gerber format specification.
-* API much simpler than the Gerber format specification - 8 pages vs 200.
-* All common pad shapes built-in.
-* User-defined pad special shapes
+* All common pad shapes are built-in.
+* User-defined pads shapes are easily created.
 * 100% compliance with the specification, rev 2022.02.
 * Conservative, robust output files.
-* Risky constructs that fail in some buggy implementations are not used.
-* Include standardized meta information needed for fabrication, such as which pads are vias.
-* Verify whether the input parameters comply with the Gerber spec.
+* Risky constructs failing in some buggy applications are avoided.
+* Standardized meta information for fabrication, such as which pads are vias.
+* Input parameters are checked for compliance with the Gerber spec.
 * Stateless input (the gerber_writer takes care of the Gerber states).
 
 Example:: 
@@ -43,12 +43,18 @@ Example::
 Installation
 ------------
 
-$ py -m pip install gerber_writer
+Windows::
+
+    $ py -m pip install gerber_writer
+	
+Linux::
+
+    $ python3 -m pip install gerber_writer
 
 Requirements
 ------------
 
-* Python 3.10 or higher
+* Python 3.9 or higher
 * Standard library only.
 * OS independent.
 

@@ -2,6 +2,13 @@
 Change log of gerber_writer
 ===========================
 
+
+Version 0.4.2.17
+----------------
+
+- paths with '\' changed to '/' when used for both linux and windows,
+    a string like "..\abc\def" becomes r"../abc/def". Windows will then back off
+
 Version 0.4.2.15
 ----------------
 
@@ -16,8 +23,9 @@ Version 0.4.2.11
 Version 0.4.2.7
 ---------------
 
-- bug solved: when pointMax remains zero (because of empty files, no path instructions etc) there will be a crash because math.log(pointMax[0]) fails. 
-pointMax is now initialised with (1,1)
+- bug solved: when pointMax remains zero (because of empty files, no path instructions etc).
+    there will be a crash because math.log(pointMax[0]) fails.
+    pointMax is now initialised with (1,1)
 
 Version 0.4.1.3
 ---------------

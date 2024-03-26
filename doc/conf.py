@@ -12,7 +12,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..\src'))
+#adf r'...' to handle both windows and linux
+sys.path.insert(0, os.path.abspath(r'../src'))
 
 # -- Project information -----------------------------------------------------
 
@@ -21,7 +22,7 @@ copyright = '2022, Karel Tavernier'
 author = 'Karel Tavernier'
 
 # The full version, including alpha/beta/rc tags
-release = '0.4.1.2'
+release = '0.4.2.20'
 
 
 # -- General configuration ---------------------------------------------------
@@ -30,7 +31,9 @@ release = '0.4.1.2'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-'sphinx.ext.autodoc', "sphinx_rtd_theme"
+    'sphinx.ext.autodoc',
+    "sphinx_rtd_theme",
+    "sphinx_copybutton"
 ]
 
 # Add any paths that contain templates here, relative to this directory.

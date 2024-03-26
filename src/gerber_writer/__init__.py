@@ -1,4 +1,4 @@
-__version__ = "0.4.2.15"
+__version__ = "0.4.2.20"
 __VERSION__ = __version__
 
 from .writer import *

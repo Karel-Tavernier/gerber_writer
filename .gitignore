@@ -3,7 +3,7 @@ build/
 __pycache__
 
 # Developer only
-tools/
+#tools/
 
 # Distribution / packaging 
 .Python build/ 
