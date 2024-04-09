@@ -2,10 +2,15 @@
 Change log of gerber_writer
 ===========================
 
+Version 0.4.2.21
+----------------
+
+- Homepage and Documentation links changed, no functional impact.
+
 Version 0.4.2.20
 ----------------
 
-- minimum required python version is now 3.9 instead of 3.10. Too many users are on 3.9  
+- minimum required python version is now 3.9 instead of 3.10.
 
 Version 0.4.2.17
 ----------------

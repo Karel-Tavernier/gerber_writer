@@ -39,12 +39,12 @@ do
 		Yes )
 			python3 -m pip install --upgrade pip
 			python3 -m pip install --upgrade twine
-			python3 -m twine upload --repository testpypi -u __token__ dist/* --verbose
+			python3 -m twine upload --repository pypi -u __token__ dist/* --verbose
 			break;;
 		"No, I will go with your token"  )
 			python3 -m pip install --upgrade pip
 			python3 -m pip install --upgrade twine
-			python3 -m twine upload  -r pypi -u __token__ -p pypi-AgENdGVzdC5weXBpLm9yZwIkYTg4Yzk2YTItOGZkNC00NTdlLThhNjItMTdhZmI4MWQxNjgwAAIqWzMsImEwM2QxZDM0LWIyZmYtNDA0ZC05ZTI3LWU1OTY2MDQxZTFhYSJdAAAGIIKJCl5VbDDkS4QOfCjetRWtipxrheFI1v28DMekYoPG dist/* --verbose
+			python3 -m twine upload  -r pypi -u __token__ -p pypi-AgENdGVzdC5weXBpLm9yZwIkYTg4Yzk2YTItOGZkNC00NTdlLThhNjItMTdhZmI4MWQxNjgwA dist/* --verbose
             exit;;
 		No  )
             echo "get one on PyPI website in your account! or retry with option 2"
@@ -52,3 +52,4 @@ do
 	esac
 done
 
+#pypi-AgEIcHlwaS5vcmcCJGZhMmQ0NTlmLTJiZGMtNDIxYi1iZDE0LWRhNmYyNTEwNGRmNQACFVsxLFsiZ2VyYmVyLXdyaXRlciJdXQACLFsyLFsiMDgwNmVkOTAtZGI4MC00ODk3LTk4YmUtOGI1ZTg5MzQyNzFlIl1dAAAGIBcufa4ZBDVDjwSI5fvxJikXI3csd88lcXdyTi-VSH6u

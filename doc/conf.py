@@ -22,7 +22,7 @@ copyright = '2022, Karel Tavernier'
 author = 'Karel Tavernier'
 
 # The full version, including alpha/beta/rc tags
-release = '0.4.2.20'
+release = '0.4.2.21'
 
 
 # -- General configuration ---------------------------------------------------
