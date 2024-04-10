@@ -26,5 +26,5 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://github.com/Karel-Tavernier/gerber_writer"
-"Documentation"= "https://karel-tavernier.github.io/gerber_writer/"
-#"Documentation"= "https://alaindef.github.io/"
+#"Documentation"= "https://karel-tavernier.github.io/gerber_writer/"
+"Documentation"= "https://alaindef.github.io/alaindef.github.io.zerp/index.html"
