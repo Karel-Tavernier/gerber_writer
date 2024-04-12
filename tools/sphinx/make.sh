@@ -19,9 +19,8 @@ done
 
 if [ -z "$1" ]
 then
-  echo "\nargument missing. 
-  rm -rf docs
-  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
+  echo "\nargument missing." 
+  rm -rf docs  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
 else
   $SPHINXBUILD -M $1 $SOURCEDIR $BUILDDIR $SPHINXOPTS $O
 fi
