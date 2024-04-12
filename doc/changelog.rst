@@ -5,7 +5,8 @@ Change log of gerber_writer
 Version 0.4.3
 ----------------
 
-- Consolidation of previous changes. No user impact.
+- Comply with revision 2023.08 of the Gerber Layer Format Specification.
+- Consolidation and refactoring. No user impact.
 
 
 Version 0.4.2.21
