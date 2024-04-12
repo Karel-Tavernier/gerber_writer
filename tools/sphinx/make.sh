@@ -19,9 +19,9 @@ done
 
 if [ -z "$1" ]
 then
-  echo "\nargument missing. we will use  html\n - use 'make.sh help' for help"
+  echo "\nargument missing. 
   rm -rf docs
-  $SPHINXBUILD -M html $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
+  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
 else
   $SPHINXBUILD -M $1 $SOURCEDIR $BUILDDIR $SPHINXOPTS $O
 fi
