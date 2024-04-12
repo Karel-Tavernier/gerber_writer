@@ -10,7 +10,7 @@ A Python library for writing Gerber files.
 * No need to read the 200 page Gerber format specification.
 * All common pad shapes are built-in.
 * User-defined pads shapes are easily created.
-* 100% compliance with the specification, rev 2022.02.
+* 100% compliance with the specification, rev 2023.08.
 * Conservative, robust output files.
 * Risky constructs failing in some buggy applications are avoided.
 * Standardized meta information for fabrication, such as which pads are vias.
