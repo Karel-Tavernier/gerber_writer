@@ -2,8 +2,9 @@
 build/
 __pycache__
 
-# Developer only
-#tools/
+# Developer only - contains upload scripts for Pypi
+gitignore-tools/
+gitdiff.sh
 
 # Distribution / packaging 
 .Python build/ 

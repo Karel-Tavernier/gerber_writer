@@ -1,7 +1,7 @@
 #sphinx-build: the following arguments are required: sourcedir, outputdir, filenames
 SPHINXBUILD=sphinx-build
 SOURCEDIR=doc
-BUILDDIR=build/docs
+BUILDDIR=docs
 
 # change to project directory. -- return to current dir after execution of this script.
 while true ; do
@@ -16,12 +16,14 @@ while true ; do
     cd ..
 done
 
-
 if [ -z "$1" ]
 then
-  echo "\n!!! argument missing. probably you want './make.sh html'\n"
-  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
+  echo "\nargument missing. we will use  html\n - use 'make.sh help' for help"
+  rm -rf docs
+  $SPHINXBUILD -M html $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
 else
   $SPHINXBUILD -M $1 $SOURCEDIR $BUILDDIR $SPHINXOPTS $O
 fi
 
+touch docs/.nojekyll
+touch docs/html/.nojekyll

@@ -1,7 +1,6 @@
 #sphinx-build: the following arguments are required: sourcedir, outputdir, filenames
 SPHINXBUILD=sphinx-build
 SOURCEDIR=doc
-#BUILDDIR=build/docs
 echo "target directory will be  sphincdocs, sibling of gerber_writer. includes .nojekyll"
 BUILDDIR=../sphinxdocs
 

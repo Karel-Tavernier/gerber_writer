@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A simple API for writing Gerber files &mdash; gerber_writer 0.4.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=8209df7b" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=3d1d8b85"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=a03dc29a"></script>
+        <script src="_static/doctools.js?v=a6d80eb4"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Readme" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            gerber_writer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Readme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Tutorial and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log of gerber_writer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">gerber_writer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">A simple API for writing Gerber files</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="a-simple-api-for-writing-gerber-files">
+<h1>A simple API for writing Gerber files<a class="headerlink" href="#a-simple-api-for-writing-gerber-files" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Readme</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#purpose">Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Tutorial and Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber-format-a-primer">Gerber format - a primer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#main-classes-reference">Main Classes Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.writer.DataLayer"><code class="docutils literal notranslate"><span class="pre">DataLayer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.writer.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.writer.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.writer.set_generation_software"><code class="docutils literal notranslate"><span class="pre">set_generation_software()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#padmaster-classes-reference">Padmaster Classes Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.ChamferedRectangle"><code class="docutils literal notranslate"><span class="pre">ChamferedRectangle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.Circle"><code class="docutils literal notranslate"><span class="pre">Circle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.Rectangle"><code class="docutils literal notranslate"><span class="pre">Rectangle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.RegularPolygon"><code class="docutils literal notranslate"><span class="pre">RegularPolygon</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.RoundedRectangle"><code class="docutils literal notranslate"><span class="pre">RoundedRectangle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.RoundedThermal"><code class="docutils literal notranslate"><span class="pre">RoundedThermal</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.Thermal"><code class="docutils literal notranslate"><span class="pre">Thermal</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#gerber_writer.padmasters.UserPolygon"><code class="docutils literal notranslate"><span class="pre">UserPolygon</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log of gerber_writer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-3">Version 0.4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-21">Version 0.4.2.21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-20">Version 0.4.2.20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-17">Version 0.4.2.17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-15">Version 0.4.2.15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-11">Version 0.4.2.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-2-7">Version 0.4.2.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-1-3">Version 0.4.1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-1-2">Version 0.4.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4-1">Version 0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-3-4">Version 0.3.4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-right" title="Readme" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Karel Tavernier.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

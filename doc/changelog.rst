@@ -2,6 +2,12 @@
 Change log of gerber_writer
 ===========================
 
+Version 0.4.3
+----------------
+
+- Consolidation of previous changes. No user impact.
+
+
 Version 0.4.2.21
 ----------------
 

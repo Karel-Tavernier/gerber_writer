@@ -1,1 +1,0 @@
-py ..\..\RGC\Gerber_parser\RGC_select_tree.py

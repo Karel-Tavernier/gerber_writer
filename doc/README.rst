@@ -35,7 +35,7 @@ Example::
 	top.add_pad(via_pad, via_point)
 
 	with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
-	    top.dump_gerber(outfile)
+        top.dump_gerber(outfile)
 		
 .. image:: example_small.png
 	:width: 800
