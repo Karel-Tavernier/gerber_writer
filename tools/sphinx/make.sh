@@ -17,6 +17,7 @@ while true ; do
     cd ..
 done
 
+cp README.rst doc
 if [ -z "$1" ]
 then
   echo "\nargument missing." 
