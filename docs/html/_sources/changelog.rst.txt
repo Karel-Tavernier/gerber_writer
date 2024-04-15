@@ -2,7 +2,7 @@
 Change log of gerber_writer
 ===========================
 
-Version 0.4.3
+Version 0.4.3.1
 ----------------
 
 - Comply with revision 2023.08 of the Gerber Layer Format Specification.

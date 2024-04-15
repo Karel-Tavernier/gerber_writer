@@ -21,9 +21,10 @@ cp README.rst doc
 if [ -z "$1" ]
 then
   echo "\nargument missing." 
-  rm -rf docs  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR $SPHINXOPTS $0
+  $SPHINXBUILD -M help $SOURCEDIR $BUILDDIR
 else
-  $SPHINXBUILD -M $1 $SOURCEDIR $BUILDDIR $SPHINXOPTS $O
+  $SPHINXBUILD -M $1 $SOURCEDIR $BUILDDIR
+#   $SPHINXOPTS $O
 fi
 
 touch docs/.nojekyll
