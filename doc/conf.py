@@ -22,7 +22,8 @@ copyright = '2022, Karel Tavernier'
 author = 'Karel Tavernier'
 
 # The full version, including alpha/beta/rc tags
-release = '0.4.3.1'
+# adf 240417
+# release = '0.4.3.1'
 
 
 # -- General configuration ---------------------------------------------------
