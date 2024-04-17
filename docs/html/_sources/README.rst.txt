@@ -37,7 +37,7 @@ Example::
 	with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
         top.dump_gerber(outfile)
 		
-.. image:: example_small.png
+.. image:: https://karel-tavernier.github.io/gerber_writer/html/_images/example_small.png
 	:width: 800
 
 Installation
