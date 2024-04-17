@@ -23,7 +23,7 @@ author = 'Karel Tavernier'
 
 # The full version, including alpha/beta/rc tags
 # adf 240417
-# release = '0.4.3.1'
+# release = '0.4.3.2'
 
 
 # -- General configuration ---------------------------------------------------
