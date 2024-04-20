@@ -19,26 +19,26 @@ A Python library for writing Gerber files.
 
 Example:: 
 
-	from gerber_writer import DataLayer, Circle, RoundedRectangle
-		
-	trace_width = 0.127
-	via_pad = Circle(0.508, 'ViaPad')
-	IC17_toe = RoundedRectangle(1.257, 2.286, 0.254, 'SMDPad,CuDef')
-	toe_point = (0, 2.54)
-	via_point = (5.08, 0)
+    from gerber_writer import DataLayer, Circle, RoundedRectangle
 
-	top = DataLayer('Copper,L1,Top,Signal')
+    trace_width = 0.127
+    via_pad = Circle(0.508, 'ViaPad')
+    IC17_toe = RoundedRectangle(1.257, 2.286, 0.254, 'SMDPad,CuDef')
+    toe_point = (0, 2.54)
+    via_point = (5.08, 0)
 
-	top.add_pad(IC17_toe, toe_point, angle=45)
-	top.add_trace_line(toe_point, (2.54, 0), trace_width, 'Conductor')
-	top.add_trace_line((2.54, 0), via_point, trace_width, 'Conductor')
-	top.add_pad(via_pad, via_point)
+    top = DataLayer('Copper,L1,Top,Signal')
 
-	with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
+    top.add_pad(IC17_toe, toe_point, angle=45)
+    top.add_trace_line(toe_point, (2.54, 0), trace_width, 'Conductor')
+    top.add_trace_line((2.54, 0), via_point, trace_width, 'Conductor')
+    top.add_pad(via_pad, via_point)
+
+    with open('gerbers\gerber_writer_example_small.gbr', 'w') as outfile:
         top.dump_gerber(outfile)
-		
+
 .. image:: https://karel-tavernier.github.io/gerber_writer/html/_images/example_small.png
-	:width: 800
+    :width: 800
 
 Installation
 ------------
@@ -46,7 +46,7 @@ Installation
 Windows::
 
     $ py -m pip install gerber_writer
-	
+
 Linux::
 
     $ python3 -m pip install gerber_writer

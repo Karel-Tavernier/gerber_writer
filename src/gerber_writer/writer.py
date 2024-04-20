@@ -796,7 +796,7 @@ class DataLayer:
         The fundamental requirement for regions is that all subpaths must be closed,
         meaning that their end point exactly coincides with the start point.
         Furthermore, the contours cannot be self-intersecting.
-        For more information about valied contours see the Gerber Layer Format Specification, section 4.10.3. 
+        For more information about valid contours see the Gerber Layer Format Specification, section 4.10.3. 
         
         """
         if not isinstance(path, Path): raise TypeError('path is not a Path instance')
